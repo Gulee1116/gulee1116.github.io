@@ -1,149 +1,748 @@
-
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>剧本生成器2.0</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        h3 {
-            text-align: center;
-            color: #666;
-            margin-top: -10px;
-        }
-        .input-group {
-            margin: 20px 0;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #444;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-        button {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-        .team-section {
-            margin-bottom: 30px;
-            width: 100%;
-        }
-        .character-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            padding: 10px 0;
-            width: 100%;
-        }
-        .character-card {
-            background: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            position: relative;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-            cursor: pointer;
-        }
-        .character-card:hover {
-            transform: scale(1.05) rotate(0.5deg);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-            background: #f9f9f9;
-        }
-        .character-card img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 4px;
-            margin-right: 10px;
-        }
-        .character-info .character-name {
-            font-size: 16px;
-            font-weight: bold;
-            color: #333;
-            text-align: left;
-        }
-        .character-checkbox {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-        .character-checkbox input {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-        h2 {
-            cursor: pointer;
-            background: linear-gradient(90deg, #e0e0e0, #f0f0f0);
-            padding: 12px;
-            border-radius: 4px;
-            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        h2:hover {
-            background: linear-gradient(90deg, #d0d0d0, #e0e0e0);
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        h2:not(:hover) {
-            transform: translateY(0);
-            box-shadow: none;
-        }
-    </style>
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>角色选择</title>
+  <style>
+    /* —— 已选角色面板 —— */
+    #selected-panel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 8px 16px;
+      background: #ffffffcc;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      z-index: 9999;
+    }
+    .selected-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 100px;
+    }
+    .selected-group .label {
+      font-size: 0.85em;
+      color: #555;
+      margin-bottom: 4px;
+    }
+    .selected-group .count {
+      font-weight: bold;
+      margin-left: 4px;
+    }
+    .avatars {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      max-width: 200px;
+    }
+    .avatars img {
+      width: 32px;
+      height: 32px;
+      object-fit: cover;
+      border-radius: 4px;
+      transition: transform 0.2s ease;
+    }
+    .avatars img:hover {
+      transform: scale(1.2);
+    }
+    .avatars .more {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      font-size: 0.85em;
+      background: #eee;
+      border-radius: 4px;
+    }
+    /* 下载按钮 */
+    #download-json {
+      margin-left: auto;
+      padding: 6px 12px;
+      font-size: 0.85em;
+      background: #409eff;
+      border: none;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    #download-json:hover {
+      background: #66b1ff;
+      transform: translateY(-2px);
+    }
+
+    /* 正文留出空间 */
+    body {
+      padding-top: 72px;
+    }
+
+    /* —— 正文中角色展示区（示例） —— */
+    .role-section {
+      margin: 24px;
+    }
+    .role-section h2 {
+      margin-bottom: 12px;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 12px;
+    }
+    .card {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      text-align: center;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transform: translateY(-4px);
+    }
+    .card img {
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+  </style>
 </head>
 <body>
-    <h1>剧本生成器2.0 by Jayon</h1>
-    <h3>deployed by 顾乐Gulee</h3>
 
-    <div class="input-group">
-        <label for="scriptTitle">剧本标题</label>
-        <input type="text" id="scriptTitle" placeholder="请输入剧本标题">
+  <!-- 固定在顶部的已选角色面板 -->
+  <div id="selected-panel">
+    <div class="selected-group">
+      <div class="label">镇民 <span id="count-townsfolk" class="count">12</span></div>
+      <div id="avatars-townsfolk" class="avatars"><img src="./角色选择_files/fortune_teller.png" title="占卜师"><img src="./角色选择_files/undertaker.png" title="送葬者"><img src="./角色选择_files/washerwoman.png" title="洗衣妇"><img src="./角色选择_files/chef.png" title="厨师"><img src="./角色选择_files/chambermaid.png" title="侍女"><img src="./角色选择_files/mathematician.png" title="数学家"><img src="./角色选择_files/snake_charmer.png" title="舞蛇人"><img src="./角色选择_files/noble.png" title="贵族"><img src="./角色选择_files/bounty_hunter.png" title="赏金猎人"><img src="./角色选择_files/general.png" title="将军"><img src="./角色选择_files/preacher.png" title="传教士"><img src="./角色选择_files/savant.png" title="博学者"></div>
     </div>
-
-    <div class="input-group">
-        <label for="author">作者</label>
-        <input type="text" id="author" placeholder="请输入作者姓名">
+    <div class="selected-group">
+      <div class="label">外来者 <span id="count-outsider" class="count">4</span></div>
+      <div id="avatars-outsider" class="avatars"><img src="./角色选择_files/lunatic.png" title="疯子"><img src="./角色选择_files/hatter.png" title="帽匠"><img src="./角色选择_files/politician.png" title="政客"><img src="./角色选择_files/moonchild.png" title="月之子"></div>
     </div>
+    <div class="selected-group">
+      <div class="label">爪牙 <span id="count-minion" class="count">4</span></div>
+      <div id="avatars-minion" class="avatars"><img src="./角色选择_files/devils_advocate.png" title="魔鬼代言人"><img src="./角色选择_files/marionette.png" title="提线木偶"><img src="./角色选择_files/goblin.png" title="哥布林"><img src="./角色选择_files/baron.png" title="男爵"></div>
+    </div>
+    <div class="selected-group">
+      <div class="label">恶魔 <span id="count-demon" class="count">4</span></div>
+      <div id="avatars-demon" class="avatars"><img src="./角色选择_files/shabaloth.png" title="沙巴洛斯"><img src="./角色选择_files/pukka.png" title="普卡"><img src="./角色选择_files/po.png" title="珀"><img src="./角色选择_files/fang_gu.png" title="方古"></div>
+    </div>
+    <button id="download-json">下载 JSON</button>
+  </div>
 
-    <div class="character-grid" id="characterGrid"></div>
+  <!-- 下面是你原来的页面布局 -->
+  <div id="main-content">
+    <!-- 示例：四个类型的角色区块 -->
+    <div id="section-townsfolk" class="role-section">
+      <h2>镇民</h2>
+      <div class="cards" id="cards-townsfolk"><div class="card">
+            <img src="./角色选择_files/_amnesia.png" alt="失忆的镇民">
+            <div>失忆的镇民</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/washerwoman.png" alt="洗衣妇">
+            <div>洗衣妇</div>
+          </div><div class="card">
+            <img src="./角色选择_files/librarian.png" alt="图书管理员">
+            <div>图书管理员</div>
+          </div><div class="card">
+            <img src="./角色选择_files/investigator.png" alt="调查员">
+            <div>调查员</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/chef.png" alt="厨师">
+            <div>厨师</div>
+          </div><div class="card">
+            <img src="./角色选择_files/empath.png" alt="共情者">
+            <div>共情者</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/fortune_teller.png" alt="占卜师">
+            <div>占卜师</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/undertaker.png" alt="送葬者">
+            <div>送葬者</div>
+          </div><div class="card">
+            <img src="./角色选择_files/monk.png" alt="僧侣">
+            <div>僧侣</div>
+          </div><div class="card">
+            <img src="./角色选择_files/ravenkeeper.png" alt="守鸦人">
+            <div>守鸦人</div>
+          </div><div class="card">
+            <img src="./角色选择_files/virgin.png" alt="贞洁者">
+            <div>贞洁者</div>
+          </div><div class="card">
+            <img src="./角色选择_files/slayer.png" alt="猎手">
+            <div>猎手</div>
+          </div><div class="card">
+            <img src="./角色选择_files/soldier.png" alt="士兵">
+            <div>士兵</div>
+          </div><div class="card">
+            <img src="./角色选择_files/mayor.png" alt="镇长">
+            <div>镇长</div>
+          </div><div class="card">
+            <img src="./角色选择_files/grandmother.png" alt="祖母">
+            <div>祖母</div>
+          </div><div class="card">
+            <img src="./角色选择_files/sailor.png" alt="水手">
+            <div>水手</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/chambermaid.png" alt="侍女">
+            <div>侍女</div>
+          </div><div class="card">
+            <img src="./角色选择_files/exorcist.png" alt="驱魔人">
+            <div>驱魔人</div>
+          </div><div class="card">
+            <img src="./角色选择_files/innkeeper.png" alt="旅店老板">
+            <div>旅店老板</div>
+          </div><div class="card">
+            <img src="./角色选择_files/gambler.png" alt="赌徒">
+            <div>赌徒</div>
+          </div><div class="card">
+            <img src="./角色选择_files/gossip.png" alt="造谣者">
+            <div>造谣者</div>
+          </div><div class="card">
+            <img src="./角色选择_files/courtier.png" alt="侍臣">
+            <div>侍臣</div>
+          </div><div class="card">
+            <img src="./角色选择_files/professor.png" alt="教授">
+            <div>教授</div>
+          </div><div class="card">
+            <img src="./角色选择_files/minstrel.png" alt="吟游诗人">
+            <div>吟游诗人</div>
+          </div><div class="card">
+            <img src="./角色选择_files/tea_lady.png" alt="茶艺师">
+            <div>茶艺师</div>
+          </div><div class="card">
+            <img src="./角色选择_files/pacifist.png" alt="和平主义者">
+            <div>和平主义者</div>
+          </div><div class="card">
+            <img src="./角色选择_files/fool.png" alt="弄臣">
+            <div>弄臣</div>
+          </div><div class="card">
+            <img src="./角色选择_files/clockmaker.png" alt="钟表匠">
+            <div>钟表匠</div>
+          </div><div class="card">
+            <img src="./角色选择_files/dreamer.png" alt="筑梦师">
+            <div>筑梦师</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/snake_charmer.png" alt="舞蛇人">
+            <div>舞蛇人</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/mathematician.png" alt="数学家">
+            <div>数学家</div>
+          </div><div class="card">
+            <img src="./角色选择_files/flowergirl.png" alt="卖花女孩">
+            <div>卖花女孩</div>
+          </div><div class="card">
+            <img src="./角色选择_files/town_crier.png" alt="城镇公告员">
+            <div>城镇公告员</div>
+          </div><div class="card">
+            <img src="./角色选择_files/oracle.png" alt="神谕者">
+            <div>神谕者</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/savant.png" alt="博学者">
+            <div>博学者</div>
+          </div><div class="card">
+            <img src="./角色选择_files/seamstress.png" alt="女裁缝">
+            <div>女裁缝</div>
+          </div><div class="card">
+            <img src="./角色选择_files/philosopher.png" alt="哲学家">
+            <div>哲学家</div>
+          </div><div class="card">
+            <img src="./角色选择_files/artist.png" alt="艺术家">
+            <div>艺术家</div>
+          </div><div class="card">
+            <img src="./角色选择_files/juggler.png" alt="杂耍艺人">
+            <div>杂耍艺人</div>
+          </div><div class="card">
+            <img src="./角色选择_files/sage.png" alt="贤者">
+            <div>贤者</div>
+          </div><div class="card">
+            <img src="./角色选择_files/amnesiac.png" alt="失忆者">
+            <div>失忆者</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/noble.png" alt="贵族">
+            <div>贵族</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/bounty_hunter.png" alt="赏金猎人">
+            <div>赏金猎人</div>
+          </div><div class="card">
+            <img src="./角色选择_files/pixie.png" alt="小精灵">
+            <div>小精灵</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/general.png" alt="将军">
+            <div>将军</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/preacher.png" alt="传教士">
+            <div>传教士</div>
+          </div><div class="card">
+            <img src="./角色选择_files/balloonist.png" alt="气球驾驶员">
+            <div>气球驾驶员</div>
+          </div><div class="card">
+            <img src="./角色选择_files/cult_leader.png" alt="异教领袖">
+            <div>异教领袖</div>
+          </div><div class="card">
+            <img src="./角色选择_files/lycanthrope.png" alt="半兽人">
+            <div>半兽人</div>
+          </div><div class="card">
+            <img src="./角色选择_files/nightwatchman.png" alt="守夜人">
+            <div>守夜人</div>
+          </div><div class="card">
+            <img src="./角色选择_files/engineer.png" alt="工程师">
+            <div>工程师</div>
+          </div><div class="card">
+            <img src="./角色选择_files/fisherman.png" alt="渔夫">
+            <div>渔夫</div>
+          </div><div class="card">
+            <img src="./角色选择_files/huntsman.png" alt="巡山人">
+            <div>巡山人</div>
+          </div><div class="card">
+            <img src="./角色选择_files/alchemist.png" alt="炼金术士">
+            <div>炼金术士</div>
+          </div><div class="card">
+            <img src="./角色选择_files/farmer.png" alt="农夫">
+            <div>农夫</div>
+          </div><div class="card">
+            <img src="./角色选择_files/magician.png" alt="魔术师">
+            <div>魔术师</div>
+          </div><div class="card">
+            <img src="./角色选择_files/king.png" alt="国王">
+            <div>国王</div>
+          </div><div class="card">
+            <img src="./角色选择_files/choirboy.png" alt="唱诗男孩">
+            <div>唱诗男孩</div>
+          </div><div class="card">
+            <img src="./角色选择_files/poppy_grower.png" alt="罂粟种植者">
+            <div>罂粟种植者</div>
+          </div><div class="card">
+            <img src="./角色选择_files/atheist.png" alt="无神论者">
+            <div>无神论者</div>
+          </div><div class="card">
+            <img src="./角色选择_files/cannibal.png" alt="食人族">
+            <div>食人族</div>
+          </div><div class="card">
+            <img src="./角色选择_files/knight.png" alt="骑士">
+            <div>骑士</div>
+          </div><div class="card">
+            <img src="./角色选择_files/steward.png" alt="事务官">
+            <div>事务官</div>
+          </div><div class="card">
+            <img src="./角色选择_files/high_priestess.png" alt="女祭司">
+            <div>女祭司</div>
+          </div><div class="card">
+            <img src="./角色选择_files/shugenja.png" alt="修行者">
+            <div>修行者</div>
+          </div><div class="card">
+            <img src="./角色选择_files/village_idiot.png" alt="村夫">
+            <div>村夫</div>
+          </div><div class="card">
+            <img src="./角色选择_files/banshee.png" alt="报丧女妖">
+            <div>报丧女妖</div>
+          </div><div class="card">
+            <img src="./角色选择_files/Alsaahir.png" alt="戏法师">
+            <div>戏法师</div>
+          </div><div class="card">
+            <img src="./角色选择_files/acrobat.png" alt="杂技演员">
+            <div>杂技演员</div>
+          </div><div class="card">
+            <img src="./角色选择_files/yinyangshi.png" alt="阴阳师">
+            <div>阴阳师</div>
+          </div><div class="card">
+            <img src="./角色选择_files/qintianjian.png" alt="钦天监">
+            <div>钦天监</div>
+          </div><div class="card">
+            <img src="./角色选择_files/dianxiaoer.png" alt="店小二">
+            <div>店小二</div>
+          </div><div class="card">
+            <img src="./角色选择_files/xionghaizi.png" alt="熊孩子">
+            <div>熊孩子</div>
+          </div><div class="card">
+            <img src="./角色选择_files/langzhong.png" alt="郎中">
+            <div>郎中</div>
+          </div><div class="card">
+            <img src="./角色选择_files/dagengren.png" alt="打更人">
+            <div>打更人</div>
+          </div><div class="card">
+            <img src="./角色选择_files/jinyiwei.png" alt="锦衣卫">
+            <div>锦衣卫</div>
+          </div><div class="card">
+            <img src="./角色选择_files/heshang.png" alt="和尚">
+            <div>和尚</div>
+          </div><div class="card">
+            <img src="./角色选择_files/geling.png" alt="歌伶">
+            <div>歌伶</div>
+          </div><div class="card">
+            <img src="./角色选择_files/bianlianshi.png" alt="变脸师">
+            <div>变脸师</div>
+          </div><div class="card">
+            <img src="./角色选择_files/banxian.png" alt="半仙">
+            <div>半仙</div>
+          </div><div class="card">
+            <img src="./角色选择_files/xizi.png" alt="戏子（改）">
+            <div>戏子（改）</div>
+          </div><div class="card">
+            <img src="./角色选择_files/wudaozhe.png" alt="悟道者">
+            <div>悟道者</div>
+          </div><div class="card">
+            <img src="./角色选择_files/bingbi.png" alt="秉笔">
+            <div>秉笔</div>
+          </div><div class="card">
+            <img src="./角色选择_files/chongfei.png" alt="宠妃">
+            <div>宠妃</div>
+          </div><div class="card">
+            <img src="./角色选择_files/daoke.png" alt="刀客">
+            <div>刀客</div>
+          </div><div class="card">
+            <img src="./角色选择_files/daoshi.png" alt="道士">
+            <div>道士</div>
+          </div><div class="card">
+            <img src="./角色选择_files/fangshi.png" alt="方士">
+            <div>方士</div>
+          </div><div class="card">
+            <img src="./角色选择_files/fengshuishi.png" alt="风水师">
+            <div>风水师</div>
+          </div><div class="card">
+            <img src="./角色选择_files/limao.png" alt="狸猫">
+            <div>狸猫</div>
+          </div><div class="card">
+            <img src="./角色选择_files/qianke.png" alt="掮客">
+            <div>掮客</div>
+          </div><div class="card">
+            <img src="./角色选择_files/ranfangfangzhu.png" alt="染坊坊主">
+            <div>染坊坊主</div>
+          </div><div class="card">
+            <img src="./角色选择_files/shiguan.png" alt="史官">
+            <div>史官</div>
+          </div><div class="card">
+            <img src="./角色选择_files/tixingguan.png" alt="提刑官">
+            <div>提刑官</div>
+          </div><div class="card">
+            <img src="./角色选择_files/xuncha.png" alt="巡察">
+            <div>巡察</div>
+          </div><div class="card">
+            <img src="./角色选择_files/yanshi.png" alt="偃师">
+            <div>偃师</div>
+          </div><div class="card">
+            <img src="./角色选择_files/yishi.png" alt="驿使">
+            <div>驿使</div>
+          </div><div class="card">
+            <img src="./角色选择_files/yinluren.png" alt="引路人">
+            <div>引路人</div>
+          </div><div class="card">
+            <img src="./角色选择_files/yongjiang.png" alt="俑匠">
+            <div>俑匠</div>
+          </div><div class="card">
+            <img src="./角色选择_files/zhen.png" alt="鸩">
+            <div>鸩</div>
+          </div><div class="card">
+            <img src="./角色选择_files/zhifu.png" alt="知府">
+            <div>知府</div>
+          </div></div>
+    </div>
+    <div id="section-outsider" class="role-section">
+      <h2>外来者</h2>
+      <div class="cards" id="cards-outsider"><div class="card">
+            <img src="./角色选择_files/1_amnesia.png" alt="失忆的外来者">
+            <div>失忆的外来者</div>
+          </div><div class="card">
+            <img src="./角色选择_files/butler.png" alt="管家">
+            <div>管家</div>
+          </div><div class="card">
+            <img src="./角色选择_files/drunk.png" alt="酒鬼">
+            <div>酒鬼</div>
+          </div><div class="card">
+            <img src="./角色选择_files/recluse.png" alt="陌客">
+            <div>陌客</div>
+          </div><div class="card">
+            <img src="./角色选择_files/saint.png" alt="圣徒">
+            <div>圣徒</div>
+          </div><div class="card">
+            <img src="./角色选择_files/tinker.png" alt="修补匠">
+            <div>修补匠</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/moonchild.png" alt="月之子">
+            <div>月之子</div>
+          </div><div class="card">
+            <img src="./角色选择_files/goon.png" alt="莽夫">
+            <div>莽夫</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/lunatic.png" alt="疯子">
+            <div>疯子</div>
+          </div><div class="card">
+            <img src="./角色选择_files/mutant.png" alt="畸形秀演员">
+            <div>畸形秀演员</div>
+          </div><div class="card">
+            <img src="./角色选择_files/sweetheart.png" alt="心上人">
+            <div>心上人</div>
+          </div><div class="card">
+            <img src="./角色选择_files/barber.png" alt="理发师">
+            <div>理发师</div>
+          </div><div class="card">
+            <img src="./角色选择_files/klutz.png" alt="呆瓜">
+            <div>呆瓜</div>
+          </div><div class="card">
+            <img src="./角色选择_files/snitch.png" alt="告密者">
+            <div>告密者</div>
+          </div><div class="card">
+            <img src="./角色选择_files/puzzlemaster.png" alt="解谜大师">
+            <div>解谜大师</div>
+          </div><div class="card">
+            <img src="./角色选择_files/heretic.png" alt="异端分子">
+            <div>异端分子</div>
+          </div><div class="card">
+            <img src="./角色选择_files/damsel.png" alt="落难少女">
+            <div>落难少女</div>
+          </div><div class="card">
+            <img src="./角色选择_files/golem.png" alt="魔像">
+            <div>魔像</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/politician.png" alt="政客">
+            <div>政客</div>
+          </div><div class="card">
+            <img src="./角色选择_files/plague_doctor.png" alt="瘟疫医生">
+            <div>瘟疫医生</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/hatter.png" alt="帽匠">
+            <div>帽匠</div>
+          </div><div class="card">
+            <img src="./角色选择_files/ogre.png" alt="食人魔">
+            <div>食人魔</div>
+          </div><div class="card">
+            <img src="./角色选择_files/Zealot.png" alt="狂热者">
+            <div>狂热者</div>
+          </div><div class="card">
+            <img src="./角色选择_files/shaxing.png" alt="煞星">
+            <div>煞星</div>
+          </div><div class="card">
+            <img src="./角色选择_files/nichen.png" alt="逆臣">
+            <div>逆臣</div>
+          </div><div class="card">
+            <img src="./角色选择_files/shusheng.png" alt="书生">
+            <div>书生</div>
+          </div><div class="card">
+            <img src="./角色选择_files/shijie.png" alt="使节">
+            <div>使节</div>
+          </div><div class="card">
+            <img src="./角色选择_files/jiubao.png" alt="酒保">
+            <div>酒保</div>
+          </div><div class="card">
+            <img src="./角色选择_files/rulianshi.png" alt="入殓师">
+            <div>入殓师</div>
+          </div><div class="card">
+            <img src="./角色选择_files/shutong.png" alt="书童">
+            <div>书童</div>
+          </div></div>
+    </div>
+    <div id="section-minion" class="role-section">
+      <h2>爪牙</h2>
+      <div class="cards" id="cards-minion"><div class="card">
+            <img src="./角色选择_files/2_amnesia.png" alt="失忆的爪牙">
+            <div>失忆的爪牙</div>
+          </div><div class="card">
+            <img src="./角色选择_files/poisoner.png" alt="投毒者">
+            <div>投毒者</div>
+          </div><div class="card">
+            <img src="./角色选择_files/spy.png" alt="间谍">
+            <div>间谍</div>
+          </div><div class="card">
+            <img src="./角色选择_files/scarlet_woman.png" alt="红唇女郎">
+            <div>红唇女郎</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/baron.png" alt="男爵">
+            <div>男爵</div>
+          </div><div class="card">
+            <img src="./角色选择_files/godfather.png" alt="教父">
+            <div>教父</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/devils_advocate.png" alt="魔鬼代言人">
+            <div>魔鬼代言人</div>
+          </div><div class="card">
+            <img src="./角色选择_files/assassin.png" alt="刺客">
+            <div>刺客</div>
+          </div><div class="card">
+            <img src="./角色选择_files/mastermind.png" alt="主谋">
+            <div>主谋</div>
+          </div><div class="card">
+            <img src="./角色选择_files/evil_twin.png" alt="镜像双子">
+            <div>镜像双子</div>
+          </div><div class="card">
+            <img src="./角色选择_files/witch.png" alt="女巫">
+            <div>女巫</div>
+          </div><div class="card">
+            <img src="./角色选择_files/cerenovus.png" alt="洗脑师">
+            <div>洗脑师</div>
+          </div><div class="card">
+            <img src="./角色选择_files/pit-hag.png" alt="麻脸巫婆">
+            <div>麻脸巫婆</div>
+          </div><div class="card">
+            <img src="./角色选择_files/widow.png" alt="寡妇">
+            <div>寡妇</div>
+          </div><div class="card">
+            <img src="./角色选择_files/fearmonger.png" alt="恐惧之灵">
+            <div>恐惧之灵</div>
+          </div><div class="card">
+            <img src="./角色选择_files/psychopath.png" alt="精神病患者">
+            <div>精神病患者</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/goblin.png" alt="哥布林">
+            <div>哥布林</div>
+          </div><div class="card">
+            <img src="./角色选择_files/mezepheles.png" alt="灵言师">
+            <div>灵言师</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/marionette.png" alt="提线木偶">
+            <div>提线木偶</div>
+          </div><div class="card">
+            <img src="./角色选择_files/boomdandy.png" alt="炸弹人">
+            <div>炸弹人</div>
+          </div><div class="card">
+            <img src="./角色选择_files/Organgrinder.png" alt="街头风琴手">
+            <div>街头风琴手</div>
+          </div><div class="card">
+            <img src="./角色选择_files/vizier.png" alt="维齐尔">
+            <div>维齐尔</div>
+          </div><div class="card">
+            <img src="./角色选择_files/harpy.png" alt="鹰身女妖">
+            <div>鹰身女妖</div>
+          </div><div class="card">
+            <img src="./角色选择_files/summoner.png" alt="召唤师">
+            <div>召唤师</div>
+          </div><div class="card">
+            <img src="./角色选择_files/Boffin.png" alt="科学怪人">
+            <div>科学怪人</div>
+          </div><div class="card">
+            <img src="./角色选择_files/Xaan.png" alt="限">
+            <div>限</div>
+          </div><div class="card">
+            <img src="./角色选择_files/20250103031516!Wizard.png" alt="巫师">
+            <div>巫师</div>
+          </div><div class="card">
+            <img src="./角色选择_files/humeiniang.png" alt="狐媚娘">
+            <div>狐媚娘</div>
+          </div><div class="card">
+            <img src="./角色选择_files/yangguren.png" alt="养蛊人">
+            <div>养蛊人</div>
+          </div><div class="card">
+            <img src="./角色选择_files/ganshiren.png" alt="赶尸人">
+            <div>赶尸人</div>
+          </div><div class="card">
+            <img src="./角色选择_files/gudiao.png" alt="蛊雕">
+            <div>蛊雕</div>
+          </div><div class="card">
+            <img src="./角色选择_files/huapi.png" alt="画皮">
+            <div>画皮</div>
+          </div><div class="card">
+            <img src="./角色选择_files/jinweijun.png" alt="禁卫军（改）">
+            <div>禁卫军（改）</div>
+          </div><div class="card">
+            <img src="./角色选择_files/mengpo.png" alt="孟婆">
+            <div>孟婆</div>
+          </div><div class="card">
+            <img src="./角色选择_files/niangjiushi.png" alt="酿酒师">
+            <div>酿酒师</div>
+          </div></div>
+    </div>
+    <div id="section-demon" class="role-section">
+      <h2>恶魔</h2>
+      <div class="cards" id="cards-demon"><div class="card">
+            <img src="./角色选择_files/3_amnesia.png" alt="失忆的恶魔">
+            <div>失忆的恶魔</div>
+          </div><div class="card">
+            <img src="./角色选择_files/imp.png" alt="小恶魔">
+            <div>小恶魔</div>
+          </div><div class="card">
+            <img src="./角色选择_files/zombuul.png" alt="僵怖">
+            <div>僵怖</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/pukka.png" alt="普卡">
+            <div>普卡</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/shabaloth.png" alt="沙巴洛斯">
+            <div>沙巴洛斯</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/po.png" alt="珀">
+            <div>珀</div>
+          </div><div class="card selected">
+            <img src="./角色选择_files/fang_gu.png" alt="方古">
+            <div>方古</div>
+          </div><div class="card">
+            <img src="./角色选择_files/vigormortis.png" alt="亡骨魔">
+            <div>亡骨魔</div>
+          </div><div class="card">
+            <img src="./角色选择_files/no_dashii.png" alt="诺-达鲺">
+            <div>诺-达鲺</div>
+          </div><div class="card">
+            <img src="./角色选择_files/vortox.png" alt="涡流">
+            <div>涡流</div>
+          </div><div class="card">
+            <img src="./角色选择_files/lil_monsta.png" alt="小怪宝">
+            <div>小怪宝</div>
+          </div><div class="card">
+            <img src="./角色选择_files/lleech.png" alt="痢蛭">
+            <div>痢蛭</div>
+          </div><div class="card">
+            <img src="./角色选择_files/al-hadikhia.png" alt="哈迪寂亚">
+            <div>哈迪寂亚</div>
+          </div><div class="card">
+            <img src="./角色选择_files/legion.png" alt="军团">
+            <div>军团</div>
+          </div><div class="card">
+            <img src="./角色选择_files/leviathan.png" alt="利维坦">
+            <div>利维坦</div>
+          </div><div class="card">
+            <img src="./角色选择_files/riot.png" alt="暴乱">
+            <div>暴乱</div>
+          </div><div class="card">
+            <img src="./角色选择_files/ojo.png" alt="奥赫">
+            <div>奥赫</div>
+          </div><div class="card">
+            <img src="./角色选择_files/kazali.png" alt="卡扎力">
+            <div>卡扎力</div>
+          </div><div class="card">
+            <img src="./角色选择_files/yaggababble.png" alt="牙噶巴卜">
+            <div>牙噶巴卜</div>
+          </div><div class="card">
+            <img src="./角色选择_files/Lordoftyphon.png" alt="堤丰之首">
+            <div>堤丰之首</div>
+          </div><div class="card">
+            <img src="./角色选择_files/hundun.png" alt="混沌">
+            <div>混沌</div>
+          </div><div class="card">
+            <img src="./角色选择_files/qiongqi.png" alt="穷奇">
+            <div>穷奇</div>
+          </div><div class="card">
+            <img src="./角色选择_files/taowu.png" alt="梼杌">
+            <div>梼杌</div>
+          </div><div class="card">
+            <img src="./角色选择_files/taotie.png" alt="饕餮">
+            <div>饕餮</div>
+          </div><div class="card">
+            <img src="./角色选择_files/baojun.png" alt="暴君">
+            <div>暴君</div>
+          </div><div class="card">
+            <img src="./角色选择_files/dianyuzhang.png" alt="典狱长">
+            <div>典狱长</div>
+          </div><div class="card">
+            <img src="./角色选择_files/guhuoniao.png" alt="姑获鸟">
+            <div>姑获鸟</div>
+          </div><div class="card">
+            <img src="./角色选择_files/jianning.png" alt="奸佞">
+            <div>奸佞</div>
+          </div><div class="card">
+            <img src="./角色选择_files/yanluo.png" alt="阎罗">
+            <div>阎罗</div>
+          </div></div>
+    </div>
+  </div>
 
-    <button onclick="generateScript()">生成</button>
-
-    <script>
-        // Placeholder for character data
-        const characters = [
+  <script>
+    // —— 占位：请替换为你自己的角色数据数组 —— 
+    const characters = [
     {
         "id": "_meta",
         "name": "全员追忆山雨版",
@@ -5279,343 +5878,94 @@
     }
 ];
 
-        // 存储勾选状态
-        let selectedCharacterIds = new Set();
-        const teams = [
-            { name: "镇民", type: "townsfolk" },
-            { name: "外来者", type: "outsider" },
-            { name: "爪牙", type: "minion" },
-            { name: "恶魔", type: "demon" },
-            { name: "传奇角色", type: "fabled" },
-            { name: "相克规则", type: "a jinxed" }
-        ];
+    // 已选 ID 和每种类型数量上限
+    const selectedIds = new Set();
+    const typeLimits = { townsfolk: 13, outsider: 4, minion: 4, demon: 4 };
 
-        // 初始渲染所有卡片
-        function renderAllCharacters() {
-            const grid = document.getElementById("characterGrid");
-            grid.innerHTML = "";
-            grid.style.display = "block";
-
-            teams.forEach(team => {
-                const teamSection = document.createElement("div");
-                teamSection.className = "team-section";
-                teamSection.style.marginBottom = "30px";
-                teamSection.style.width = "100%";
-
-                const teamHeader = document.createElement("h2");
-                teamHeader.textContent = team.name;
-                teamHeader.style.cursor = "pointer";
-                teamHeader.style.background = "linear-gradient(90deg, #e0e0e0, #f0f0f0)";
-                teamHeader.style.padding = "12px";
-                teamHeader.style.borderRadius = "4px";
-                teamHeader.style.transition = "background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease";
-                teamHeader.onmouseover = () => {
-                    teamHeader.style.background = "linear-gradient(90deg, #d0d0d0, #e0e0e0)";
-                    teamHeader.style.transform = "translateY(-3px)";
-                    teamHeader.style.boxShadow = "0 4px 8px rgba(0,0,0,0.1)";
-                };
-                teamHeader.onmouseout = () => {
-                    teamHeader.style.background = "linear-gradient(90deg, #e0e0e0, #f0f0f0)";
-                    teamHeader.style.transform = "translateY(0)";
-                    teamHeader.style.boxShadow = "none";
-                };
-                teamHeader.onclick = () => {
-                    teamGrid.style.display = teamGrid.style.display === "none" ? "grid" : "none";
-                };
-
-                const teamGrid = document.createElement("div");
-                teamGrid.className = "character-grid";
-                teamGrid.dataset.teamType = team.type; // 标记团队类型
-                teamGrid.style.display = "grid";
-                teamGrid.style.gridTemplateColumns = "repeat(auto-fit, minmax(250px, 1fr))";
-                teamGrid.style.gap = "15px";
-                teamGrid.style.padding = "10px 0";
-                teamGrid.style.width = "100%";
-
-                const teamCharacters = characters.filter(char => char.team === team.type);
-                teamCharacters.forEach(char => {
-                    const card = document.createElement("div");
-                    card.className = "character-card";
-                    card.dataset.characterId = char.id; // 存储角色 ID
-                    card.style.background = "#fff";
-                    card.style.borderRadius = "8px";
-                    card.style.overflow = "hidden";
-                    card.style.display = "flex";
-                    card.style.alignItems = "center";
-                    card.style.padding = "10px";
-                    card.style.boxShadow = "0 2px 4px rgba(0,0,0,0.1)";
-                    card.style.transition = "transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease";
-                    const checkbox = document.createElement("input");
-                    checkbox.type = "checkbox";
-                    checkbox.dataset.characterId = char.id;
-                    checkbox.style.width = "20px";
-                    checkbox.style.height = "20px";
-                    checkbox.style.cursor = "pointer";
-                    if (selectedCharacterIds.has(char.id)) checkbox.checked = true;
-                    const checkboxDiv = document.createElement("div");
-                    checkboxDiv.className = "character-checkbox";
-                    checkboxDiv.style.position = "absolute";
-                    checkboxDiv.style.top = "10px";
-                    checkboxDiv.style.right = "10px";
-                    checkboxDiv.appendChild(checkbox);
-                    card.appendChild(checkboxDiv);
-                    card.innerHTML += `
-                        <img src="${char.image}" alt="${char.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; margin-right: 10px;">
-                        <div class="character-info" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                            <div class="character-name" style="font-size: 16px; font-weight: bold; color: #333; text-align: left;">${char.name}</div>
-                        </div>
-                    `;
-                    teamGrid.appendChild(card);
-                });
-
-                teamSection.appendChild(teamHeader);
-                teamSection.appendChild(teamGrid);
-                grid.appendChild(teamSection);
-            });
-        }
-
-        // 更新相克规则卡片
-        function updateJinxedCharacters() {
-  // 1. 先算出被选中的“基础”角色的名字（镇民/外来者/爪牙/恶魔）
-  const selectedBaseNames = Array.from(selectedCharacterIds)
-    .map(id => characters.find(c => c.id === id))
-    .filter(c => c && ["townsfolk","outsider","minion","demon"].includes(c.team))
-    .map(c => c.name);
-
-  // 2. 计算本次应当显示的“相克”角色列表
-  const jinxedCharacters = characters
-    .filter(c => c.team === "a jinxed")
-    .filter(jc => {
-      const [a, b] = jc.name.split("&").map(s => s.trim());
-      return selectedBaseNames.includes(a) && selectedBaseNames.includes(b);
-    });
-
-  // 3. 找到相克规则区域，先把“上一次”存在但这次不该出现的 jinxed id 从 Set 里删掉
-  const jinxedGrid = document.querySelector('.character-grid[data-team-type="a jinxed"]');
-  if (!jinxedGrid) return;
-  // 上次渲染过的 id 列表
-  const prevIds = Array.from(jinxedGrid.children)
-    .map(card => card.dataset.characterId);
-  prevIds.forEach(id => {
-    if (selectedCharacterIds.has(id) &&
-        !jinxedCharacters.some(jc => jc.id === id)) {
-      selectedCharacterIds.delete(id);
-      console.log(`Removed stale jinxed id: ${id}`);
+    // 渲染角色卡片到各自区块
+    function renderCharacters() {
+      ['townsfolk','outsider','minion','demon'].forEach(role => {
+        const container = document.getElementById(`cards-${role}`);
+        container.innerHTML = '';
+        characters.filter(c => c.team === role).forEach(c => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `
+            <img src="${c.image}" alt="${c.name}">
+            <div>${c.name}</div>
+          `;
+          card.addEventListener('click', () => toggleSelect(c.id, card));
+          container.appendChild(card);
+        });
+      });
     }
-  });
 
-  // 4. 真正清空旧的卡片
-  jinxedGrid.innerHTML = "";
-
-  // 5. 逐个用纯 DOM API 造出新的 jinxed 卡片
-  jinxedCharacters.forEach(char => {
-    // 外层 card
-    const card = document.createElement("div");
-    card.className = "character-card";
-    card.dataset.characterId = char.id;
-    card.addEventListener("click", e => {
-        e.stopPropagation();    // ❶ 阻止冒泡，不让外层的委托再来一次
-        });
-
-    Object.assign(card.style, {
-      position: "relative",
-      background: "#fff",
-      borderRadius: "8px",
-      overflow: "hidden",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
-      boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-      transition: "transform 0.3s ease, boxShadow 0.3s ease, background 0.3s ease",
-      cursor: "pointer"
-    });
-    // hover 效果
-    card.onmouseover = () => {
-      card.style.transform = "scale(1.05) rotate(0.5deg)";
-      card.style.boxShadow = "0 10px 20px rgba(0,0,0,0.15)";
-      card.style.background = "#f9f9f9";
-    };
-    card.onmouseout = () => {
-      card.style.transform = "";
-      card.style.boxShadow = "0 2px 4px rgba(0,0,0,0.1)";
-      card.style.background = "#fff";
-    };
-
-    // 复选框容器
-    const checkboxDiv = document.createElement("div");
-    checkboxDiv.className = "character-checkbox";
-    Object.assign(checkboxDiv.style, {
-      position: "absolute",
-      top: "10px",
-      right: "10px"
-    });
-    // 复选框本体
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.dataset.characterId = char.id;
-    checkbox.checked = selectedCharacterIds.has(char.id);
-    Object.assign(checkbox.style, {
-      width: "20px",
-      height: "20px",
-      cursor: "pointer"
-    });
-    checkboxDiv.appendChild(checkbox);
-    card.appendChild(checkboxDiv);
-
-    // 图像
-    const img = document.createElement("img");
-    img.src = char.image;
-    img.alt = char.name;
-    Object.assign(img.style, {
-      width: "80px",
-      height: "80px",
-      objectFit: "cover",
-      borderRadius: "4px",
-      marginRight: "10px"
-    });
-    card.appendChild(img);
-
-    // 名称容器
-    const info = document.createElement("div");
-    info.className = "character-info";
-    Object.assign(info.style, {
-      flex: "1",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-between"
-    });
-    const nameDiv = document.createElement("div");
-    nameDiv.className = "character-name";
-    nameDiv.textContent = char.name;
-    Object.assign(nameDiv.style, {
-      fontSize: "16px",
-      fontWeight: "bold",
-      color: "#333",
-      textAlign: "left"
-    });
-    info.appendChild(nameDiv);
-    card.appendChild(info);
-
-    // 整个卡片点击也能切换 checkbox
-    card.addEventListener("click", e => {
-      if (e.target !== checkbox) {
-        checkbox.checked = !checkbox.checked;
+    // 选中/取消选中
+    function toggleSelect(id, cardEl) {
+      if (selectedIds.has(id)) {
+        selectedIds.delete(id);
+        cardEl.classList.remove('selected');
+      } else {
+        selectedIds.add(id);
+        cardEl.classList.add('selected');
       }
-      const id = checkbox.dataset.characterId;
-      if (checkbox.checked) selectedCharacterIds.add(id);
-      else selectedCharacterIds.delete(id);
-      console.log("Updated Selected Character IDs (Card Click):", Array.from(selectedCharacterIds));
-      updateJinxedCharacters();
-    });
+      updateAll();
+    }
 
-    jinxedGrid.appendChild(card);
-  });
-}
+    // 更新顶部面板
+    function updateAll() {
+      ['townsfolk','outsider','minion','demon'].forEach(role => {
+        const sel = [...selectedIds]
+          .map(id => characters.find(c => c.id === id))
+          .filter(c => c && c.team === role);
 
+        document.getElementById(`count-${role}`).textContent = sel.length;
+        const avatars = document.getElementById(`avatars-${role}`);
+        avatars.innerHTML = '';
 
+        // 如果超过常规上限，就按最多展示上限+1，最后一个显示“…+x”
+        const limit = typeLimits[role];
+        const displayCount = sel.length <= limit ? sel.length : limit + 1;
 
-        // 事件委托：监听整个 characterGrid 的点击事件
-        document.getElementById("characterGrid").addEventListener("click", (event) => {
-            const card = event.target.closest(".character-card");
-            if (!card) return;
-
-            const checkbox = card.querySelector("input");
-            if (!checkbox) return;
-
-            const characterId = checkbox.dataset.characterId;
-            const isCheckboxClick = event.target.tagName === "INPUT";
-
-            // 只有在非复选框区域点击时切换状态
-            if (!isCheckboxClick) {
-                checkbox.checked = !checkbox.checked;
-            }
-
-            const newCheckedState = checkbox.checked;
-            if (newCheckedState) {
-                selectedCharacterIds.add(characterId);
-            } else {
-                selectedCharacterIds.delete(characterId);
-            }
-
-            console.log(`Updated Selected Character IDs (${isCheckboxClick ? "Checkbox Click" : "Card Click"}):`, Array.from(selectedCharacterIds));
-            updateJinxedCharacters();
+        sel.slice(0, displayCount).forEach((c, idx) => {
+          if (idx < limit) {
+            const img = document.createElement('img');
+            img.src = c.image;
+            img.title = c.name;
+            avatars.appendChild(img);
+          } else {
+            const more = document.createElement('span');
+            more.className = 'more';
+            more.textContent = `+${sel.length - limit}`;
+            avatars.appendChild(more);
+          }
         });
+      });
+    }
 
-        // 初始渲染
-        renderAllCharacters();
+    // 生成并下载 JSON
+    function downloadJSON() {
+      const data = [...selectedIds]
+        .map(id => characters.find(c => c.id === id))
+        .filter(Boolean);
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'selected_characters.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+    document.getElementById('download-json').addEventListener('click', downloadJSON);
 
-        function generateScript() {
-            const title = document.getElementById("scriptTitle").value;
-            const author = document.getElementById("author").value;
-            const selectedCharacters = Array.from(selectedCharacterIds)
-                .map(characterId => characters.find(char => char.id === characterId))
-                .filter(char => char);
+    // 初始化
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCharacters();
+      updateAll();
+    });
+  </script>
 
-            if (!title || !author || selectedCharacters.length === 0) {
-                alert("请填写剧本标题、作者并选择至少一个角色！");
-                return;
-            }
 
-            const script = [
-                {
-                    "id": "_meta",
-                    "name": title,
-                    "author": author,
-                    "logo": "https://www.helloimg.com/i/2024/07/18/669889e8484e6.png",
-                    "description": "全员追忆山雨版",
-                    "townsfolkName": "镇民",
-                    "outsidersName": "外来者",
-                    "minionsName": "爪牙",
-                    "demonsName": "恶魔",
-                    "townsfolk": "镇民",
-                    "outsider": "外来者",
-                    "minion": "爪牙",
-                    "demon": "恶魔",
-                    "a jinxedName": "相克",
-                    "a jinxed": "相克",
-                    "state": [
-                        {
-                            "stateName": "华白推荐角色能力修改-全追山雨版",
-                            "stateDescription": "①涡流的邪恶方获胜能力首日失效。②哲学家/工程师/帽匠/麻脸巫婆/召唤师/卡扎力可能被说书人要求在一个特定的范围中选择角色。③杂耍艺人/魔术师/畸形秀演员/真失忆者 会得知自己的身份。④无神论者、戏子（改）、异端分子、军团、暴乱一般来说不会出现在配板中。"
-                        },
-                        {
-                            "stateName": "华白推荐全追运行规则",
-                            "stateDescription": "①每个白天，所有玩家都能向说书人询问关于自己能力的问题和角色的问题各一次，你会得知完美/接近/有关/无关。②每个夜晚，说书人会播报当前共计有多少个完美的玩家。③在游戏的第四个白天时，所有玩家得知自己的角色（保底）。"
-                        },
-                        {
-                            "stateName": "星火乐推荐角色能力修改-全追山雨版",
-                            "stateDescription": "①涡流的邪恶方获胜能力首日失效。②哲学家/工程师/帽匠/麻脸巫婆/召唤师/卡扎力可能被说书人要求在一个特定的范围中选择角色。"
-                        },
-                        {
-                            "stateName": "星火乐推荐全追运行规则",
-                            "stateDescription": "①每个白天，所有玩家都能向说书人询问关于自己能力的问题或角色的问题共两次，你会得知完美/接近/有关/无关。②每个夜晚，说书人可能会播报当前共计有多少个完美的玩家。"
-                        },
-                        {
-                            "stateName": "华白叠甲",
-                            "stateDescription": "本json里的夜晚行动顺序可能有问题，一切结算以钟楼百科-夜晚行动顺序一览为准。相克规则也懒得改了，未来的某一天会修吧。"
-                        },
-                        {
-                            "stateName": "山雨强权上帝",
-                            "stateDescription": "山雨欲来相关判定由当局说书人拥有最终解释权，如果说书人的意见和大多数玩家不一致，别问，问就是说书人最大！"
-                        }
-                    ]
-                },
-                ...selectedCharacters
-            ];
-
-            const jsonString = JSON.stringify(script, null, 2);
-            const blob = new Blob([jsonString], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = `${title || "script"}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-
-            alert(`剧本已下载！\n标题: ${title}\n作者: ${author}\n角色数: ${selectedCharacters.length}`);
-        }
-    </script>
-</body>
-</html>
+</body></html>

@@ -1,149 +1,4 @@
-
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>剧本生成器2.0</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        h3 {
-            text-align: center;
-            color: #666;
-            margin-top: -10px;
-        }
-        .input-group {
-            margin: 20px 0;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #444;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-        button {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-        .team-section {
-            margin-bottom: 30px;
-            width: 100%;
-        }
-        .character-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            padding: 10px 0;
-            width: 100%;
-        }
-        .character-card {
-            background: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            position: relative;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-            cursor: pointer;
-        }
-        .character-card:hover {
-            transform: scale(1.05) rotate(0.5deg);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-            background: #f9f9f9;
-        }
-        .character-card img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 4px;
-            margin-right: 10px;
-        }
-        .character-info .character-name {
-            font-size: 16px;
-            font-weight: bold;
-            color: #333;
-            text-align: left;
-        }
-        .character-checkbox {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-        .character-checkbox input {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-        h2 {
-            cursor: pointer;
-            background: linear-gradient(90deg, #e0e0e0, #f0f0f0);
-            padding: 12px;
-            border-radius: 4px;
-            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        h2:hover {
-            background: linear-gradient(90deg, #d0d0d0, #e0e0e0);
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        h2:not(:hover) {
-            transform: translateY(0);
-            box-shadow: none;
-        }
-    </style>
-</head>
-<body>
-    <h1>剧本生成器2.0 by Jayon</h1>
-    <h3>deployed by 顾乐Gulee</h3>
-
-    <div class="input-group">
-        <label for="scriptTitle">剧本标题</label>
-        <input type="text" id="scriptTitle" placeholder="请输入剧本标题">
-    </div>
-
-    <div class="input-group">
-        <label for="author">作者</label>
-        <input type="text" id="author" placeholder="请输入作者姓名">
-    </div>
-
-    <div class="character-grid" id="characterGrid"></div>
-
-    <button onclick="generateScript()">生成</button>
-
-    <script>
-        // Placeholder for character data
-        const characters = [
+[
     {
         "id": "_meta",
         "name": "全员追忆山雨版",
@@ -470,7 +325,7 @@
         "name": "叫花子",
         "ability": "每个白天限一次，你可以公开选择一名其他玩家，让他选择一个非恶魔角色：你可能会获得这个角色的能力，直到下个黎明。",
         "team": "traveler",
-        "firstNight": 1,
+        "firstNight": 0,
         "otherNight": 1,
         "firstNightReminder": "",
         "otherNightReminder": "如果你决定不让叫花子获得这个角色的能力，无事发生。如果你决定让叫花子获得这个角色的能力，那么让他行动。如果该角色已在场，你可以自由决定是先唤醒原角色对应的玩家还是先唤醒叫花子玩家来进行行动。",
@@ -515,7 +370,7 @@
         "ability": "在你的首个夜晚，你会得知两名玩家和一个镇民角色：这两名玩家之一是该角色。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3035,
+        "firstNight": 35,
         "otherNight": 0,
         "firstNightReminder": "唤醒洗衣妇，对她指向两名玩家，并展示一个镇民角色标记。这两名玩家其中之一是这个镇民。",
         "otherNightReminder": "",
@@ -533,7 +388,7 @@
         "ability": "在你的首个夜晚，你会得知两名玩家和一个外来者角色：这两名玩家之一是该角色（或者你会得知没有外来者在场）。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3036,
+        "firstNight": 36,
         "otherNight": 0,
         "firstNightReminder": "唤醒图书管理员，对他指向两名玩家，并展示一个外来者角色标记。这两名玩家其中之一是这个外来者。",
         "otherNightReminder": "",
@@ -551,7 +406,7 @@
         "ability": "在你的首个夜晚，你会得知两名玩家和一个爪牙角色：这两名玩家之一是该角色（或者你会得知没有爪牙在场）。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3037,
+        "firstNight": 37,
         "otherNight": 0,
         "firstNightReminder": "唤醒调查员，对他指向两名玩家，并展示一个爪牙角色标记。这两名玩家其中之一是这个爪牙。",
         "otherNightReminder": "",
@@ -569,7 +424,7 @@
         "ability": "在你的首个夜晚，你会得知场上邻座的邪恶玩家有多少对。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3038,
+        "firstNight": 38,
         "otherNight": 0,
         "firstNightReminder": "唤醒厨师，对他用手势比划数字来告知他邻座邪恶玩家有几对。",
         "otherNightReminder": "",
@@ -584,7 +439,7 @@
         "ability": "每个夜晚，你会得知与你邻近的两名存活的玩家中邪恶玩家的数量。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3039,
+        "firstNight": 39,
         "otherNight": 80,
         "firstNightReminder": "唤醒共情者，对他用手势比划数字来告知他与他邻近的存活玩家中有几人是邪恶玩家。",
         "otherNightReminder": "唤醒共情者，对他用手势比划数字来告知他与他邻近的存活玩家中有几人是邪恶玩家。",
@@ -599,7 +454,7 @@
         "ability": "每个夜晚，你要选择两名玩家：你会得知他们之中是否有恶魔。会有一名善良玩家始终被你的能力当作恶魔。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3040,
+        "firstNight": 40,
         "otherNight": 81,
         "firstNightReminder": "唤醒占卜师，让他选择两名玩家。以点头或摇头告知他是否选中了恶魔。",
         "otherNightReminder": "唤醒占卜师，让他选择两名玩家。以点头或摇头告知他是否选中了恶魔。",
@@ -634,7 +489,7 @@
         "team": "townsfolk",
         "sch_team": "镇民",
         "firstNight": 0,
-        "otherNight": 14,
+        "otherNight": 16,
         "firstNightReminder": "",
         "otherNightReminder": "唤醒僧侣，让他选择除自己以外的一名玩家，那名玩家今晚免受恶魔负面效果影响。",
         "reminders": [
@@ -729,7 +584,7 @@
         "ability": "在你的首个夜晚，你会得知一名善良玩家和他的角色。如果恶魔杀死了他，你也会死亡。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3043,
+        "firstNight": 43,
         "otherNight": 66,
         "firstNightReminder": "唤醒祖母，对她指向一名善良玩家，并展示该玩家的角色标记。",
         "otherNightReminder": "如果恶魔杀死了孙子，祖母死亡。",
@@ -747,7 +602,7 @@
         "ability": "每个夜晚，你要选择一名存活的玩家：你或他之一会醉酒直到下个黄昏。你不会死亡。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3013,
+        "firstNight": 13,
         "otherNight": 5,
         "firstNightReminder": "唤醒水手，让他选择一名玩家。决定他俩其中谁因为水手能力醉酒。",
         "otherNightReminder": "唤醒水手，让他选择一名玩家。决定他俩其中谁因为水手能力醉酒。",
@@ -764,7 +619,7 @@
         "ability": "每个夜晚，你要选择除你以外的两名存活的玩家：你会得知他们中有几人在当晚因其自身能力而被唤醒。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3064,
+        "firstNight": 64,
         "otherNight": 100,
         "firstNightReminder": "唤醒侍女，让她选择两名除自己以外的存活玩家。用手势比划数字来告知她这些玩家中因自己能力而唤醒的玩家数量。",
         "otherNightReminder": "唤醒侍女，让她选择两名除自己以外的存活玩家。用手势比划数字来告知她这些玩家中因自己能力而唤醒的玩家数量。",
@@ -815,7 +670,7 @@
         "team": "townsfolk",
         "sch_team": "镇民",
         "firstNight": 0,
-        "otherNight": 12,
+        "otherNight": 14,
         "firstNightReminder": "",
         "otherNightReminder": "唤醒赌徒，让他进行猜测。如果猜测错误，他死亡。",
         "reminders": [
@@ -848,7 +703,7 @@
         "ability": "每局游戏限一次，在夜晚时，你可以选择一个角色：如果该角色在场，一个该角色从当晚开始醉酒三天三夜。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3020,
+        "firstNight": 20,
         "otherNight": 11,
         "firstNightReminder": "唤醒侍臣，他可以摇头不使用能力，或选择角色列表上的一个任意角色，该角色对应的玩家之一醉酒。",
         "otherNightReminder": "如果侍臣未曾使用能力，唤醒侍臣，他可以摇头不使用能力，或选择角色列表上的一个任意角色，该角色对应的玩家之一醉酒。",
@@ -952,7 +807,7 @@
         "ability": "在你的首个夜晚，你会得知恶魔与爪牙之间最近的距离。（邻座的玩家距离为1）",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3044,
+        "firstNight": 44,
         "otherNight": 0,
         "firstNightReminder": "唤醒钟表匠，对他用手势比划数字来告知他恶魔与爪牙之间的最近距离。",
         "otherNightReminder": "",
@@ -967,7 +822,7 @@
         "ability": "每个夜晚，你要选择除你及旅行者以外的一名玩家：你会得知一个善良角色和一个邪恶角色，该玩家是其中一个角色。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3045,
+        "firstNight": 45,
         "otherNight": 84,
         "firstNightReminder": "唤醒筑梦师，让他选择一名除自己以外的非旅行者玩家。对他展示一善一恶两个角色标记。",
         "otherNightReminder": "唤醒筑梦师，让他选择一名除自己以外的非旅行者玩家。对他展示一善一恶两个角色标记。",
@@ -982,8 +837,8 @@
         "ability": "每个夜晚，你要选择一名存活的玩家：如果你选中了恶魔，你和他交换角色和阵营，然后他中毒。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3021,
-        "otherNight": 13,
+        "firstNight": 21,
+        "otherNight": 15,
         "firstNightReminder": "唤醒舞蛇人，让他选择一名存活玩家。如果选中恶魔则执行角色和阵营的交换，并在舞蛇人入睡后通知旧恶魔角色变化。",
         "otherNightReminder": "唤醒舞蛇人，让他选择一名存活玩家。如果选中恶魔则执行角色和阵营的交换，并在舞蛇人入睡后通知旧恶魔角色变化。",
         "reminders": [
@@ -999,7 +854,7 @@
         "ability": "每个夜晚，你会得知有多少名玩家的能力因为其他角色的能力而未正常生效。（从上个黎明到你被唤醒时）",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3065,
+        "firstNight": 65,
         "otherNight": 101,
         "firstNightReminder": "唤醒数学家，用手势比划数字来告诉他今天有多少玩家的能力未正常生效。",
         "otherNightReminder": "唤醒数学家，用手势比划数字来告诉他今天有多少玩家的能力未正常生效。",
@@ -1082,7 +937,7 @@
         "ability": "每局游戏限一次，在夜晚时，你可以选择除你以外的两名玩家：你会得知他们是否为同一阵营。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3046,
+        "firstNight": 46,
         "otherNight": 88,
         "firstNightReminder": "唤醒女裁缝，她可以摇头不使用能力，或选择除自己以外的两名玩家。以点头或摇头告知她选择的玩家是否为同一阵营。",
         "otherNightReminder": "如果女裁缝未曾使用能力，唤醒女裁缝，她可以摇头不使用能力，或选择除自己以外的两名玩家。以点头或摇头告知她选择的玩家是否为同一阵营。",
@@ -1185,7 +1040,7 @@
         "ability": "在你的首个夜晚，你会得知三名玩家：其中有且只有一名玩家是邪恶的。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3049,
+        "firstNight": 49,
         "otherNight": 0,
         "firstNightReminder": "唤醒贵族，对他指向三名玩家。这三名玩家中有且仅有一名是邪恶玩家。",
         "otherNightReminder": "",
@@ -1202,7 +1057,7 @@
         "ability": "在你的首个夜晚，你会得知一名邪恶玩家。每当你得知的玩家死亡，你会在当晚得知另一名邪恶玩家。[会有一名镇民转变为邪恶阵营]",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3055,
+        "firstNight": 55,
         "otherNight": 94,
         "firstNightReminder": "（在进入首个夜晚时立即通知赏金猎人转变的那个镇民他的阵营发生了变化）唤醒赏金猎人，对他指向一名邪恶玩家。",
         "otherNightReminder": "如果赏金猎人之前得知的玩家死亡，唤醒赏金猎人，对他指向一名新的邪恶玩家。",
@@ -1219,7 +1074,7 @@
         "ability": "在你的首个夜晚，你会得知一个在场的镇民角色。如果你“疯狂”地证明你是该角色，当他死亡时你获得该角色的能力。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3033,
+        "firstNight": 33,
         "otherNight": 0,
         "firstNightReminder": "唤醒小精灵，对他展示一个在场镇民角色标记。",
         "otherNightReminder": "",
@@ -1237,7 +1092,7 @@
         "ability": "每个夜晚，你会得知说书人认为哪个阵营当前更有优势（善良/邪恶/均势）。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3063,
+        "firstNight": 63,
         "otherNight": 99,
         "firstNightReminder": "唤醒将军，对他用手势比划当前的优势阵营。",
         "otherNightReminder": "唤醒将军，对他用手势比划当前的优势阵营。",
@@ -1252,7 +1107,7 @@
         "ability": "每个夜晚，你要选择一名玩家：如果你选中了爪牙，他会得知被传教士选中。所有被你选中的爪牙失去能力。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3015,
+        "firstNight": 15,
         "otherNight": 7,
         "firstNightReminder": "唤醒传教士，让他选择一名玩家。如果他选中了爪牙，该爪牙失去能力。在传教士入睡后通知该爪牙被传教士选中。",
         "otherNightReminder": "唤醒传教士，让他选择一名玩家。如果他选中了爪牙，该爪牙失去能力。在传教士入睡后通知该爪牙被传教士选中。",
@@ -1269,7 +1124,7 @@
         "ability": "每个夜晚，你会得知一名与上个夜晚得知的玩家角色类型不同的玩家。[+0~1外来者]",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3050,
+        "firstNight": 50,
         "otherNight": 90,
         "firstNightReminder": "唤醒气球驾驶员，对他指向一名玩家。",
         "otherNightReminder": "唤醒气球驾驶员，对他指向一名玩家，这名玩家与之前气球驾驶员上一个夜晚得知过的玩家属于不同的角色类型。",
@@ -1286,7 +1141,7 @@
         "ability": "每个夜晚，你会转变为与你邻近的一名存活的玩家的阵营。每个白天，你可以提议所有玩家加入你的教派，如果所有善良玩家同意加入，你的阵营获胜。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3057,
+        "firstNight": 57,
         "otherNight": 96,
         "firstNightReminder": "如果异教领袖的阵营发生了变化，将他唤醒并通知他最新阵营。",
         "otherNightReminder": "如果异教领袖的阵营发生了变化，将他唤醒并通知他最新阵营。",
@@ -1318,7 +1173,7 @@
         "ability": "每局游戏限一次，在夜晚时，你可以选择一名玩家：他会得知你是守夜人。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3056,
+        "firstNight": 56,
         "otherNight": 95,
         "firstNightReminder": "唤醒守夜人，他可以摇头不使用能力，或选择一名玩家。如果守夜人选择了玩家，则在守夜人入睡后通知那名玩家谁是守夜人。",
         "otherNightReminder": "如果守夜人未曾使用能力，唤醒守夜人，他可以摇头不使用能力，或选择一名玩家。如果守夜人选择了玩家，则在守夜人入睡后通知那名玩家谁是守夜人。",
@@ -1335,7 +1190,7 @@
         "ability": "每局游戏限一次，在夜晚时，你可以选择让恶魔变成你选择的恶魔角色，或让所有爪牙变成你选择的爪牙角色。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3014,
+        "firstNight": 14,
         "otherNight": 6,
         "firstNightReminder": "唤醒工程师，他可以摇头不使用能力，或选择角色列表上的恶魔或爪牙角色，来执行同角色类型的这些玩家的角色变化。",
         "otherNightReminder": "如果工程师未曾使用能力，唤醒工程师，他可以摇头不使用能力，或选择角色列表上的恶魔或爪牙角色，来执行同角色类型的这些玩家的角色变化。",
@@ -1369,7 +1224,7 @@
         "ability": "每局游戏限一次，在夜晚时，你可以选择一名存活的玩家：如果你选中了落难少女，她会变成一个不在场的镇民角色。[+落难少女]",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3034,
+        "firstNight": 34,
         "otherNight": 77,
         "firstNightReminder": "唤醒巡山人，他可以摇头不使用能力，或选择一名玩家。如果巡山人选中了落难少女，则在巡山人入睡后通知落难少女角色变化。",
         "otherNightReminder": "如果巡山人未曾使用能力，唤醒巡山人，他可以摇头不使用能力，或选择一名玩家。如果巡山人选中了落难少女，则在巡山人入睡后通知落难少女角色变化。",
@@ -1432,7 +1287,7 @@
         "ability": "每个夜晚，如果死亡的玩家数量大于或等于存活的玩家数量，你会得知一个存活的角色。恶魔知道你是国王。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3009,
+        "firstNight": 9,
         "otherNight": 93,
         "firstNightReminder": "如果国王在场，对恶魔展示国王角色标记并指向国王玩家。",
         "otherNightReminder": "如果满足国王的唤醒条件，唤醒国王，对他展示一个存活的角色标记。",
@@ -1512,7 +1367,7 @@
         "ability": "在你的首个夜晚，你会得知两名非恶魔玩家。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3048,
+        "firstNight": 48,
         "otherNight": 0,
         "firstNightReminder": "唤醒骑士，对他指向两名非恶魔玩家。",
         "otherNightReminder": "",
@@ -1529,7 +1384,7 @@
         "ability": "在你的首个夜晚，你会得知一名善良玩家。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3047,
+        "firstNight": 47,
         "otherNight": 0,
         "firstNightReminder": "唤醒事务官，对他指向一名善良玩家。",
         "otherNightReminder": "",
@@ -1546,7 +1401,7 @@
         "ability": "每个夜晚，你会得知一名说书人认为你最应该与其交流的玩家。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3060,
+        "firstNight": 60,
         "otherNight": 98,
         "firstNightReminder": "唤醒女祭司，对她指向一名玩家。",
         "otherNightReminder": "唤醒女祭司，对她指向一名玩家。",
@@ -1561,7 +1416,7 @@
         "ability": "在你的首个夜晚，你会得知距离最近的邪恶玩家位于你的顺时针还是逆时针方向。如果两侧的邪恶玩家与你距离相等，你得知的信息由说书人决定。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3061,
+        "firstNight": 61,
         "otherNight": 0,
         "firstNightReminder": "唤醒修行者，对他指向对应方向来告知他最近的邪恶玩家的方向。",
         "otherNightReminder": "",
@@ -1576,7 +1431,7 @@
         "ability": "每个夜晚，你要选择一名玩家：你会得知他的阵营。[+0~2村夫，复数村夫中有一人醉酒]",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3054,
+        "firstNight": 54,
         "otherNight": 92,
         "firstNightReminder": "唤醒村夫，让他指向一名玩家，用手势告诉他那名玩家的阵营。",
         "otherNightReminder": "唤醒村夫，让他指向一名玩家，用手势告诉他那名玩家的阵营。",
@@ -1625,7 +1480,7 @@
         "team": "townsfolk",
         "sch_team": "镇民",
         "firstNight": 0,
-        "otherNight": 60,
+        "otherNight": 14.5,
         "firstNightReminder": "",
         "otherNightReminder": "：唤醒杂技演员，让他选择一名玩家。如果当晚这名玩家醉酒或中毒，杂技演员死亡。",
         "reminders": [
@@ -1642,7 +1497,7 @@
         "ability": "在你的首个夜晚，你会得知两个善良角色和两个邪恶角色。其中有且只有两个角色在场。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3051,
+        "firstNight": 51,
         "otherNight": 0,
         "firstNightReminder": "唤醒阴阳师，对他展示两个善良角色和两个邪恶角色。",
         "reminders": [
@@ -1659,7 +1514,7 @@
         "ability": "在你的首个夜晚，你会得知离你最近的邪恶玩家位于你的哪一侧（左/右/相同）。如果与你邻近的玩家中有邪恶阵营，你会得知错误信息。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3062,
+        "firstNight": 62,
         "otherNight": 0,
         "firstNightReminder": "唤醒钦天监，对他指向对应方向来告知他最近的邪恶玩家的方向。",
         "otherNightReminder": "",
@@ -1674,7 +1529,7 @@
         "ability": "在你的首个夜晚，你会得知两名善良玩家。他们之中会有一人醉酒，即使你已死亡。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3053,
+        "firstNight": 53,
         "otherNight": 0,
         "firstNightReminder": "唤醒店小二，对他指向两名善良玩家。",
         "otherNightReminder": "",
@@ -1692,7 +1547,7 @@
         "ability": "每个夜晚，你要选择一个镇民角色：他们的能力会产生错误信息，直到下个黄昏。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3032,
+        "firstNight": 32,
         "otherNight": 17,
         "firstNightReminder": "唤醒熊孩子，让他选择角色列表上的一个镇民角色，该角色会产生错误信息。",
         "otherNightReminder": "唤醒熊孩子，让他选择角色列表上的一个镇民角色，该角色会产生错误信息。",
@@ -1709,7 +1564,7 @@
         "ability": "每个夜晚，你要选择除你以外的一名玩家：你会得知一个与他能力相关的词语。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3052,
+        "firstNight": 52,
         "otherNight": 91,
         "firstNightReminder": "唤醒郎中，让他指向除他以外的一名玩家。对郎中展示一个与该玩家能力相关的词语。",
         "otherNightReminder": "唤醒郎中，让他指向除他以外的一名玩家。对郎中展示一个与该玩家能力相关的词语。",
@@ -1725,7 +1580,7 @@
         "team": "townsfolk",
         "sch_team": "镇民",
         "firstNight": 0,
-        "otherNight": 15,
+        "otherNight": 12,
         "firstNightReminder": "",
         "otherNightReminder": "唤醒打更人，让他进行猜测，并放置提示标记到对应玩家旁。",
         "reminders": [
@@ -1743,7 +1598,7 @@
         "team": "townsfolk",
         "sch_team": "镇民",
         "firstNight": 0,
-        "otherNight": 16,
+        "otherNight": 13,
         "firstNightReminder": "",
         "otherNightReminder": "唤醒锦衣卫，让他选择一名玩家。他现在开始保护那名玩家。",
         "reminders": [
@@ -1896,7 +1751,7 @@
         "ability": "在你的首个夜晚，你会得知一个在场的爪牙角色。每局游戏限一次，你可以在白天公开选择一名玩家：如果他是你得知的角色，他死亡。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3053.5,
+        "firstNight": 53.5,
         "otherNight": 0,
         "firstNightReminder": "在首个夜晚，唤醒刀客，对他展示标记了“得知”的爪牙角色标记。",
         "otherNightReminder": "",
@@ -1934,7 +1789,7 @@
         "ability": "在你的首个夜晚，你要选择一个数字。在该数字对应的那一个夜晚，你会得知对应数量的在场角色。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3053.6,
+        "firstNight": 53.6,
         "otherNight": 96.5,
         "firstNightReminder": "唤醒方士，让他选一个数字。如果他选择了1，给他展示一个在场角色。",
         "otherNightReminder": "在游戏的对应天数唤醒方士，给他展示对应数量的在场角色。",
@@ -1952,7 +1807,7 @@
         "ability": "在你的首个夜晚，你会得知一名玩家的角色类型。每个夜晚*，你会从他的顺时针方向得知下一名非旅行者玩家的角色类型。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3053.7,
+        "firstNight": 53.7,
         "otherNight": 91.5,
         "firstNightReminder": "唤醒风水师，告知他“得知”标记旁的玩家角色类型，并将标记顺时针移动一名玩家。",
         "otherNightReminder": "唤醒风水师，告知他“得知”标记旁的玩家角色类型，并将标记顺时针移动一名玩家。",
@@ -1988,7 +1843,7 @@
         "ability": "每个夜晚，你要选择两名存活玩家：如果他们阵营相同，今晚任何玩家使用自身能力选择他们之一作为目标时，改为选中另一名玩家。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3013.5,
+        "firstNight": 13.5,
         "otherNight": 5.5,
         "firstNightReminder": "",
         "otherNightReminder": "唤醒掮客，让他选择两名存活玩家。如果这两个玩家阵营相同，在他俩的角色标记旁放置“交换目标”提示标记。",
@@ -2115,7 +1970,7 @@
         "ability": "每个夜晚，你要选择至多三名玩家：你会得知今晚是否有邪恶玩家的能力选择或影响了他们之中的玩家。",
         "team": "townsfolk",
         "sch_team": "镇民",
-        "firstNight": 3062.5,
+        "firstNight": 62.5,
         "otherNight": 98.5,
         "firstNightReminder": "唤醒引路人，让他选择至多三名玩家，告诉引路人今晚是否有邪恶玩家的能力选择或影响了他们之中的玩家。",
         "otherNightReminder": "唤醒引路人，让他选择至多三名玩家，告诉引路人今晚是否有邪恶玩家的能力选择或影响了他们之中的玩家。",
@@ -2199,7 +2054,7 @@
         "ability": "每个夜晚，你要选择除你以外的一名玩家：明天白天，只有他投票时你才能投票。",
         "team": "outsider",
         "sch_team": "外来者",
-        "firstNight": 3041,
+        "firstNight": 41,
         "otherNight": 82,
         "firstNightReminder": "唤醒管家，让他选择一名除自己以外的玩家，那名玩家成为他的主人。",
         "otherNightReminder": "唤醒管家，让他选择一名除自己以外的玩家，那名玩家成为他的主人。",
@@ -2315,7 +2170,7 @@
         "ability": "你以为你是一个恶魔，但其实你不是。恶魔知道你是疯子以及你在每个夜晚选择了哪些玩家。",
         "team": "outsider",
         "sch_team": "外来者",
-        "firstNight": 2005.3000000000002,
+        "firstNight": 5.3,
         "otherNight": 28,
         "firstNightReminder": "唤醒疯子并向他提供恶魔信息。如可能，则让疯子进行相应的恶魔行动。随后在恶魔信息环节对恶魔提供疯子的相关信息。",
         "otherNightReminder": "如果疯子以为的恶魔会在当晚行动，唤醒疯子，并让他以恶魔的方式行动。",
@@ -2399,7 +2254,7 @@
         "ability": "爪牙会在其首个夜晚得知三个伪装。",
         "team": "outsider",
         "sch_team": "外来者",
-        "firstNight": 2005,
+        "firstNight": 5,
         "otherNight": 0,
         "firstNightReminder": "如果告密者在场，对爪牙展示三个不在场的善良角色标记。",
         "otherNightReminder": "",
@@ -2447,7 +2302,7 @@
         "ability": "所有爪牙都知道落难少女在场。每局游戏限一次，任意爪牙可以公开猜测你是落难少女，如果猜对，你的阵营落败。",
         "team": "outsider",
         "sch_team": "外来者",
-        "firstNight": 2005.1,
+        "firstNight": 5.1,
         "otherNight": 0,
         "firstNightReminder": "如果落难少女在场，对爪牙展示落难少女角色标记。",
         "otherNightReminder": "0",
@@ -2530,7 +2385,7 @@
         "ability": "在你的首个夜晚，你要选择除你以外的一名玩家：你转变为他的阵营，即使你已醉酒或中毒，但你不知道你转变后的阵营。",
         "team": "outsider",
         "sch_team": "外来者",
-        "firstNight": 3059,
+        "firstNight": 59,
         "otherNight": 0,
         "firstNightReminder": "唤醒食人魔，让他选择一名玩家。如果他选择了邪恶玩家，将他的角色标记在魔典中倒置以表示他转变为邪恶阵营。",
         "otherNightReminder": "",
@@ -2579,7 +2434,7 @@
         "ability": "在你的首个夜晚，你要选择除你以外的一名玩家：如果他先死于处决，你会在当晚转变为邪恶；如果你先死于处决，他会在当晚转变为邪恶。",
         "team": "outsider",
         "sch_team": "外来者",
-        "firstNight": 3042,
+        "firstNight": 42,
         "otherNight": 25,
         "firstNightReminder": "唤醒逆臣，让他选择一名除自己以外的玩家，那名玩家现在与他不共戴天。",
         "otherNightReminder": "如果逆臣或他的目标玩家，这两人之一死于处决，唤醒另一名玩家并通知他阵营变化。",
@@ -2596,7 +2451,7 @@
         "ability": "恶魔知道书生在场。每局游戏限一次，恶魔可以拜访说书人并猜测你是书生。如果恶魔猜测正确，即使你已死亡，当晚该恶魔可以选择一名玩家：他死亡。",
         "team": "outsider",
         "sch_team": "外来者",
-        "firstNight": 3011,
+        "firstNight": 11,
         "otherNight": 51,
         "firstNightReminder": "如果书生在场，对恶魔展示书生角色标记。",
         "otherNightReminder": "如果恶魔猜中了书生，让恶魔选择一名玩家，该玩家死亡。",
@@ -2667,7 +2522,7 @@
         "ability": "在你的首个夜晚，你要选择除你以外的一名玩家：除首个夜晚以外，当他被邪恶玩家的能力选择或影响时，你会在当晚死亡。",
         "team": "outsider",
         "sch_team": "外来者",
-        "firstNight": 3034.5,
+        "firstNight": 34.5,
         "otherNight": 60.5,
         "firstNightReminder": "唤醒书童，让他选择一名玩家。",
         "otherNightReminder": "如果被书童选择的玩家被邪恶玩家的能力选择或影响时，书童会在当晚死亡。",
@@ -2697,7 +2552,7 @@
         "ability": "每个夜晚，你要选择一名玩家：他在当晚和明天白天中毒。",
         "team": "minion",
         "sch_team": "爪牙",
-        "firstNight": 3018,
+        "firstNight": 18,
         "otherNight": 9,
         "firstNightReminder": "唤醒投毒者，让他选择一名玩家，那名玩家中毒。",
         "otherNightReminder": "唤醒投毒者，让他选择一名玩家，那名玩家中毒。",
@@ -2714,7 +2569,7 @@
         "ability": "每个夜晚，你能查看魔典。你可能会被当作善良阵营、镇民角色或外来者角色，即使你已死亡。",
         "team": "minion",
         "sch_team": "爪牙",
-        "firstNight": 3058,
+        "firstNight": 58,
         "otherNight": 97,
         "firstNightReminder": "唤醒间谍，让他查看魔典。",
         "otherNightReminder": "唤醒间谍，让他查看魔典。",
@@ -2759,7 +2614,7 @@
         "ability": "在你的首个夜晚，你会得知有哪些外来者角色在场。如果有外来者在白天死亡，你会在当晚被唤醒并且你要选择一名玩家：他死亡。[-1或+1外来者]",
         "team": "minion",
         "sch_team": "爪牙",
-        "firstNight": 3021,
+        "firstNight": 21,
         "otherNight": 53,
         "firstNightReminder": "唤醒教父，对他展示外来者角色标记，告诉他有哪些外来者在场。",
         "otherNightReminder": "如果今天白天有外来者死亡，唤醒教父，让他攻击一名玩家。",
@@ -2777,7 +2632,7 @@
         "ability": "每个夜晚，你要选择一名存活的玩家（与上个夜晚不同）：如果明天白天他被处决，他不会死亡。",
         "team": "minion",
         "sch_team": "爪牙",
-        "firstNight": 3022,
+        "firstNight": 22,
         "otherNight": 18,
         "firstNightReminder": "唤醒魔鬼代言人，让他选择一名玩家，那名玩家处决不死。",
         "otherNightReminder": "唤醒魔鬼代言人，让他选择一名与上一晚不同的玩家，那名玩家处决不死。",
@@ -2827,7 +2682,7 @@
         "ability": "你与一名对立阵营的玩家互相知道对方是什么角色。如果其中善良玩家被处决，邪恶阵营获胜。如果你们都存活，善良阵营无法获胜。",
         "team": "minion",
         "sch_team": "爪牙",
-        "firstNight": 3023,
+        "firstNight": 23,
         "otherNight": 0,
         "firstNightReminder": "分别独自唤醒镜像双子和对立双子，告知他们由于镜像双子能力而得知的信息。",
         "otherNightReminder": "",
@@ -2844,7 +2699,7 @@
         "ability": "每个夜晚，你要选择一名玩家：如果他明天白天发起提名，他死亡。如果只有三名存活的玩家，你失去此能力。",
         "team": "minion",
         "sch_team": "爪牙",
-        "firstNight": 3024,
+        "firstNight": 24,
         "otherNight": 19,
         "firstNightReminder": "唤醒女巫，让她选择一名玩家，那名玩家被诅咒。",
         "otherNightReminder": "唤醒女巫，让她选择一名玩家，那名玩家被诅咒。",
@@ -2861,7 +2716,7 @@
         "ability": "每个夜晚，你要选择一名玩家和一个善良角色。他明天白天和夜晚需要“疯狂”地证明自己是这个角色，不然他可能被处决。",
         "team": "minion",
         "sch_team": "爪牙",
-        "firstNight": 3025,
+        "firstNight": 25,
         "otherNight": 20,
         "firstNightReminder": "唤醒洗脑师，让他选择一名玩家和角色列表上的一个善良角色，那名玩家明天需要“疯狂”证明自己是那个角色。在洗脑师入睡后通知那名玩家被洗脑。",
         "otherNightReminder": "唤醒洗脑师，让他选择一名玩家和角色列表上的一个善良角色，那名玩家明天需要“疯狂”证明自己是那个角色。在洗脑师入睡后通知那名玩家被洗脑。",
@@ -2893,7 +2748,7 @@
         "ability": "在你的首个夜晚，你能查看魔典并选择一名玩家：他中毒。随后，始终会有一名善良玩家知道寡妇在场。",
         "team": "minion",
         "sch_team": "爪牙",
-        "firstNight": 3019,
+        "firstNight": 19,
         "otherNight": 0,
         "firstNightReminder": "唤醒寡妇，让她查看魔典。在她查看完毕后让她选择一名玩家，那名玩家中毒。随后如果寡妇未醉酒中毒，唤醒一名善良玩家，对他展示寡妇角色标记。",
         "reminders": [
@@ -2911,7 +2766,7 @@
         "ability": "每个夜晚，你要选择一名玩家：如果你提名他且他被处决，他的阵营落败。当你首次选择或更换目标时，所有玩家都会得知你选择了新的玩家。",
         "team": "minion",
         "sch_team": "爪牙",
-        "firstNight": 3026,
+        "firstNight": 26,
         "otherNight": 21,
         "firstNightReminder": "唤醒恐惧之灵，让他选择一名玩家，随后通知所有玩家恐惧之灵选择了一名玩家。",
         "otherNightReminder": "唤醒恐惧之灵，让他选择一名玩家，随后如果恐惧之灵的目标发生了变更，通知所有玩家恐惧之灵选择了一名玩家。",
@@ -2960,7 +2815,7 @@
         "ability": "在你的首个夜晚，你会得知一个关键词。首个说出该关键词的善良玩家会在当晚转变为邪恶阵营。",
         "team": "minion",
         "sch_team": "爪牙",
-        "firstNight": 3028,
+        "firstNight": 28,
         "otherNight": 23,
         "firstNightReminder": "唤醒灵言师，对他展示他的关键词。",
         "otherNightReminder": "如果首次有善良玩家说出了灵言师的关键词，唤醒该玩家并通知他阵营变化。",
@@ -2977,7 +2832,7 @@
         "ability": "你以为你是一个善良角色，但其实你不是。恶魔会知道你是提线木偶。[提线木偶会与恶魔邻座]",
         "team": "minion",
         "sch_team": "爪牙",
-        "firstNight": 3010,
+        "firstNight": 10,
         "otherNight": 0,
         "firstNightReminder": "如果提线木偶在场，对恶魔展示提线木偶角色标记并指向提线木偶玩家。",
         "remindersGlobal": [
@@ -3008,8 +2863,8 @@
         "ability": "所有玩家在投票时闭眼，且票数会秘密统计。每个夜晚，你要选择自己是否醉酒直到下个黄昏。",
         "team": "minion",
         "sch_team": "爪牙",
-        "firstNight": 0,
-        "otherNight": 0,
+        "firstNight": 18.5,
+        "otherNight": 17.5,
         "firstNightReminder": "让街头风琴手选择自己是否醉酒。如果他点头，标记街头风琴手醉酒。",
         "otherNightReminder": "让街头风琴手选择自己是否醉酒。如果他点头，标记街头风琴手醉酒。如果他摇头，移除街头风琴手的醉酒标记。",
         "reminders": [
@@ -3024,7 +2879,7 @@
         "ability": "所有玩家都知道你是维齐尔。你在白天时不会死亡。如果一次提名中有善良玩家投票，你可以让被提名者立即被处决。",
         "team": "minion",
         "sch_team": "爪牙",
-        "firstNight": 3075,
+        "firstNight": 75,
         "otherNight": 0,
         "firstNightReminder": "如果维齐尔在场，告知所有人谁是维齐尔。"
     },
@@ -3036,7 +2891,7 @@
         "ability": "每个夜晚，你要选择两名玩家：明天第一名玩家需要“疯狂”地证明第二名玩家是邪恶的，否则他们之中可能会有人死亡。",
         "team": "minion",
         "sch_team": "爪牙",
-        "firstNight": 3027,
+        "firstNight": 27,
         "otherNight": 22,
         "firstNightReminder": "唤醒鹰身女妖，让她选择两名玩家，第一名玩家明天需要“疯狂”证明第二名玩家邪恶。在鹰身女妖入睡后通知第一名玩家被鹰身女妖选中。",
         "otherNightReminder": "唤醒鹰身女妖，让她选择两名玩家，第一名玩家明天需要“疯狂”证明第二名玩家邪恶。在鹰身女妖入睡后通知第一名玩家被鹰身女妖选中。",
@@ -3054,7 +2909,7 @@
         "ability": "在首个夜晚，你会得知三个伪装。在第三个夜晚，你要选择一名玩家：他变成由你选择的邪恶恶魔。[无恶魔在场]",
         "team": "minion",
         "sch_team": "爪牙",
-        "firstNight": 2005.1999999999998,
+        "firstNight": 5.2,
         "otherNight": 27,
         "firstNightReminder": "唤醒召唤师，对他展示三个不在场的善良角色标记。",
         "otherNightReminder": "如果这是游戏中的第三个夜晚，唤醒召唤师，让他选择一名玩家和一个恶魔角色，那名玩家变成由他选择的邪恶恶魔。",
@@ -3088,8 +2943,8 @@
         "ability": "在等同于初始外来者数量的夜晚，所有镇民玩家中毒直到下个黄昏。[外来者数量任意]",
         "team": "minion",
         "sch_team": "爪牙",
-        "firstNight": 3017.5,
-        "otherNight": 8.5,
+        "firstNight": 17.9,
+        "otherNight": 8.9,
         "firstNightReminder": "如果夜晚天数等于初始外来者数量，所有镇民玩家中毒到下个黄昏。",
         "otherNightReminder": "如果夜晚天数等于初始外来者数量，所有镇民玩家中毒到下个黄昏。",
         "reminders": [
@@ -3100,8 +2955,8 @@
             "大限将至"
         ],
         "setup": true
-    },
-    {
+    }, 
+  {
         "id": "wushihsihsihsihsihsihsish",
         "image": "https://clocktower-wiki.gstonegames.com/images/archive/c/c7/20250103031516%21Wizard.png",
         "edition": "custom",
@@ -3125,7 +2980,7 @@
         "ability": "在你的首个夜晚，你要选择一名玩家：他会知道狐媚娘在场。如果你死于处决，当晚他转变为邪恶阵营。",
         "team": "minion",
         "sch_team": "爪牙",
-        "firstNight": 3029,
+        "firstNight": 29,
         "otherNight": 24,
         "firstNightReminder": "唤醒狐媚娘，让她选择一名玩家。在狐媚娘入睡后通知那名玩家狐媚娘在场。",
         "otherNightReminder": "如果狐媚娘死于处决，唤醒她选择的玩家并通知他阵营变化。",
@@ -3171,7 +3026,7 @@
         "ability": "每个夜晚，你要选择左或右：你得知该方向上的下一名存活善良玩家的角色，他中毒且其他善良玩家以为他是邪恶的蛊雕，直到下个黄昏。",
         "team": "minion",
         "sch_team": "爪牙",
-        "firstNight": 3019.5,
+        "firstNight": 19.5,
         "otherNight": 9.5,
         "firstNightReminder": "唤醒蛊雕，让他选择左或者右，他得知该方向上的下一名存活善良玩家的角色，这个善良玩家中毒且其他善良玩家以为他是邪恶的蛊雕，直到下个黄昏。",
         "otherNightReminder": "唤醒蛊雕，让他选择左或者右，他得知该方向上的下一名存活善良玩家的角色，这个善良玩家中毒且其他善良玩家以为他是邪恶的蛊雕，直到下个黄昏。",
@@ -3188,7 +3043,7 @@
         "ability": "在你的首个夜晚，你要选择一名存活玩家：他死亡但会被当作存活。当他下一次死亡时，他重生，随后你重获能力。",
         "team": "minion",
         "sch_team": "爪牙",
-        "firstNight": 3017.3,
+        "firstNight": 29.5,
         "otherNight": 54.5,
         "firstNightReminder": "唤醒画皮，让画皮选择一名存活玩家，那名存活玩家变成活尸。",
         "otherNightReminder": "如果首夜被画皮变成活尸的玩家死亡，他重生，然后画皮重获能力。唤醒画皮，让画皮选择一名存活玩家，那名存活玩家变成活尸。",
@@ -3242,7 +3097,7 @@
         "ability": "每个夜晚，你要选择一个镇民角色：当他下一次通过自身能力获取信息时，改为得知你给出的信息。",
         "team": "minion",
         "sch_team": "爪牙",
-        "firstNight": 3019.6,
+        "firstNight": 19.6,
         "otherNight": 9.6,
         "firstNightReminder": "唤醒酿酒师，让其选择一个镇民角色并给出一个符合该角色信息格式的信息，当他下一次通过自身能力获取信息时，改为得知酿酒师给出的信息。",
         "otherNightReminder": "唤醒酿酒师，让其选择一个镇民角色并给出一个符合该角色信息格式的信息，当他下一次通过自身能力获取信息时，改为得知酿酒师给出的信息。",
@@ -3305,7 +3160,7 @@
         "ability": "每个夜晚，你要选择一名玩家：他中毒。上个因你的能力中毒的玩家会死亡并恢复健康。",
         "team": "demon",
         "sch_team": "恶魔",
-        "firstNight": 3030,
+        "firstNight": 30,
         "otherNight": 33,
         "firstNightReminder": "唤醒普卡，让他选择一名玩家，那名玩家中毒。",
         "otherNightReminder": "唤醒普卡，让他选择一名玩家，该玩家中毒。上一个被普卡中毒的玩家死亡。",
@@ -3430,7 +3285,7 @@
         "ability": "每个夜晚，所有爪牙要秘密决定由哪名玩家来照看小怪宝并且“是恶魔”。每个夜晚*，可能会有一名玩家死亡。[+1爪牙]",
         "team": "demon",
         "sch_team": "恶魔",
-        "firstNight": 3016,
+        "firstNight": 16,
         "otherNight": 44,
         "firstNightReminder": "唤醒所有爪牙选择由谁照看小怪宝。",
         "otherNightReminder": "唤醒所有爪牙选择由谁照看小怪宝。随后，决定今晚谁会因为小怪宝能力死亡。",
@@ -3449,7 +3304,7 @@
         "ability": "每个夜晚*，你要选择一名玩家：他死亡。在你的首个夜晚，你要选择一名存活的玩家：他中毒，只有当他处于死亡状态时你才会立即死亡。",
         "team": "demon",
         "sch_team": "恶魔",
-        "firstNight": 3017,
+        "firstNight": 17,
         "otherNight": 43,
         "firstNightReminder": "唤醒痢蛭，让他选择一名玩家以寄生。",
         "otherNightReminder": "唤醒痢蛭，让他攻击一名玩家。",
@@ -3506,8 +3361,8 @@
         "ability": "如果多于一名善良玩家被处决，邪恶阵营获胜。所有玩家都知道利维坦在场。在第五个白天结束时，邪恶阵营获胜。",
         "team": "demon",
         "sch_team": "恶魔",
-        "firstNight": 3070,
-        "otherNight": 120,
+        "firstNight": 70,
+        "otherNight": 42.2,
         "firstNightReminder": "如果利维坦在场，告知所有人利维坦在场，现在是第一个白天。",
         "otherNightReminder": "如果利维坦在场，告知所有人利维坦在场，现在是第几个白天。（如果玩家一致同意，则无需在已经知晓利维坦在场的前提下在其他夜晚执行此项操作。）",
         "reminders": [
@@ -3529,7 +3384,7 @@
         "team": "demon",
         "sch_team": "恶魔",
         "firstNight": 0,
-        "otherNight": 0,
+        "otherNight": 42.1,
         "firstNightReminder": "",
         "otherNightReminder": "",
         "reminders": [],
@@ -3577,7 +3432,7 @@
         "ability": "在你的首个夜晚，你会得知一段秘密短语。每次你在白天公开说出这段短语，当天便可能会有一名玩家在这之后死亡。",
         "team": "demon",
         "sch_team": "恶魔",
-        "firstNight": 3031,
+        "firstNight": 31,
         "otherNight": 45,
         "firstNightReminder": "唤醒牙噶巴卜，对他展示他的秘密短语。",
         "otherNightReminder": "根据已放置的提示标记数量，选择最多等同于该数量的玩家死亡。该夜晚行动只是一个提示，死亡的造成时机可以是白天，也可以是夜晚的任何时候。",
@@ -3648,7 +3503,7 @@
         "ability": "每个夜晚*，你要选择一名玩家：他死亡。当你将要死亡时，改为一名存活且具有能力的爪牙失去能力。你不会得知恶魔信息。",
         "team": "demon",
         "sch_team": "恶魔",
-        "firstNight": 2005.5,
+        "firstNight": 5.5,
         "otherNight": 50,
         "firstNightReminder": "如果梼杌在场，跳过他的恶魔信息环节。",
         "otherNightReminder": "唤醒梼杌，让他攻击一名玩家。",
@@ -3700,7 +3555,7 @@
         "ability": "每个夜晚，你要选择至多三名玩家：如果明天白天他们之一死于处决，上次被你选择的其他玩家会在当晚死亡。否则，当晚他们之中会有一名玩家死亡。",
         "team": "demon",
         "sch_team": "恶魔",
-        "firstNight": 3031.5,
+        "firstNight": 31.5,
         "otherNight": 50.1,
         "firstNightReminder": "唤醒典狱长，让他选择至多三名玩家。",
         "otherNightReminder": "唤醒典狱长，让他选择至多三名玩家。如果上个夜晚选择的玩家之中有人死于处决，上个夜晚选择的其余玩家均死亡，否则其中之一死亡。",
@@ -3754,7 +3609,7 @@
         "ability": "在你的首个夜晚，你能查看魔典并选择一名玩家：他在第三个夜晚死亡，即使因为任何原因让他不会死亡。每个夜晚，你要选择一名玩家：上个夜晚被你选择的玩家死亡。",
         "team": "demon",
         "sch_team": "恶魔",
-        "firstNight": 3058.1,
+        "firstNight": 58.1,
         "otherNight": 50.5,
         "firstNightReminder": "唤醒阎罗，让他查看魔典。让阎罗选择一名玩家，将“三更将死”标记放置该玩家角色标记旁。之后再让阎罗选择一名玩家，将“即将死亡”标记放置该玩家角色标记旁。",
         "otherNightReminder": "唤醒阎罗，让他选择一名玩家，将“即将死亡”标记放置该玩家角色标记旁，并将上一个夜晚的“即将死亡”标记替换为“死亡”标记。如果这是游戏的第三个夜晚，将“三更将死”标记的玩家判死，即使因为任何原因让他不会死亡。",
@@ -3765,1462 +3620,1462 @@
         ],
         "setup": false
     },
-    {
-        "id": "0_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/00/Chambermaid.png/300px-Chambermaid.png",
-        "name": "侍女&数学家",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "侍女会得知数学家是否醒来，即使她是在数学家之前醒来。"
-    },
-    {
-        "id": "0.12_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/06/Mathematician.png/300px-Mathematician.png",
-        "name": "数学家&疯子",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "数学家会得知疯子是否攻击了与真正的恶魔不同的目标。"
-    },
-    {
-        "id": "2_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/e/ed/Cannibal.png/300px-Cannibal.png",
-        "name": "食人族&管家",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果食人族获得了管家的能力，他会得知这一信息。"
-    },
-    {
-        "id": "166_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/e/ed/Cannibal.png/300px-Cannibal.png",
-        "name": "食人族&杂耍艺人",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果杂耍艺人在自己的首个白天猜测后在当天死于处决，当晚食人族会替杂耍艺人得知对应的信息。"
-    },
-    {
-        "id": "4_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
-        "name": "瘟疫医生&男爵",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果说书人获得了男爵的能力，至多两名玩家会变成不在场的外来者。"
-    },
-    {
-        "id": "5_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
-        "name": "瘟疫医生&炸弹人",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果瘟疫医生死于处决且说书人会因此获得炸弹人的能力，那么炸弹人的能力会立即被触发。"
-    },
-    {
-        "id": "6_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
-        "name": "瘟疫医生&镜像双子",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "说书人无法在瘟疫医生死亡时获得镜像双子的能力。"
-    },
-    {
-        "id": "7_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
-        "name": "瘟疫医生&提线木偶",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果在瘟疫医生死亡时说书人获得了提线木偶的能力，且与恶魔邻座的存活玩家中有镇民或外来者，其中一名玩家会变成邪恶的提线木偶。如果此时场上的邪恶玩家数量比初始设置时的数量超出一名或更多，改为无事发生。"
-    },
-    {
-        "id": "8_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
-        "name": "瘟疫医生&恐惧之灵",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果瘟疫医生死亡且说书人会因此获得恐惧之灵的能力，改为一名存活的爪牙玩家获得此能力，且他会得知此事。"
-    },
-    {
-        "id": "9_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
-        "name": "瘟疫医生&哥布林",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果瘟疫医生死亡且说书人会因此获得哥布林的能力，改为一名存活的爪牙玩家获得此能力，且他会得知此事。"
-    },
-    {
-        "id": "10_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
-        "name": "瘟疫医生&红唇女郎",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果瘟疫医生死亡且说书人会因此获得红唇女郎的能力，改为一名存活的爪牙玩家获得此能力，且他会得知此事。"
-    },
-    {
-        "id": "11_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
-        "name": "瘟疫医生&间谍",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果瘟疫医生死亡且说书人会因此获得间谍的能力，改为一名存活的爪牙玩家获得此能力，且他会得知此事。"
-    },
-    {
-        "id": "12_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/d/de/Pithag.png/300px-Pithag.png",
-        "name": "麻脸巫婆&异端分子",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "麻脸巫婆无法创造异端分子。"
-    },
-    {
-        "id": "13_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/d/de/Pithag.png/300px-Pithag.png",
-        "name": "麻脸巫婆&落难少女",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果麻脸巫婆创造了落难少女，改为由说书人来决定哪一名玩家变成落难少女。"
-    },
-    {
-        "id": "14_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/d/de/Pithag.png/300px-Pithag.png",
-        "name": "麻脸巫婆&政客",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "被麻脸巫婆创造的邪恶政客无法因为自身能力转变为善良阵营。"
-    },
-    {
-        "id": "15_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/d/de/Pithag.png/300px-Pithag.png",
-        "name": "麻脸巫婆&村夫",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果村夫在场数量不足3人，麻脸巫婆可以创造新的村夫。如果她这么做，村夫的醉酒效果可能会更换目标。"
-    },
-    {
-        "id": "16_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/4/4d/Cerenovus.png/300px-Cerenovus.png",
-        "name": "洗脑师&哥布林",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "洗脑师可以选择将玩家洗脑成哥布林。"
-    },
-    {
-        "id": "17_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/36/Spy.png/300px-Spy.png",
-        "name": "间谍&魔术师",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "当间谍查看魔典时，魔术师和恶魔的角色标记会被说书人移除。"
-    },
-    {
-        "id": "19_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/36/Spy.png/300px-Spy.png",
-        "name": "间谍&罂粟种植者",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果罂粟种植者在场，直到其死亡前间谍无法查看魔典。"
-    },
-    {
-        "id": "20_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/36/Spy.png/300px-Spy.png",
-        "name": "间谍&落难少女",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果间谍正在场或曾经在场，落难少女中毒。"
-    },
-    {
-        "id": "21_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/36/Spy.png/300px-Spy.png",
-        "name": "间谍&异端分子",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "异端分子会被间谍当作一个不在场的外来者，异端分子会知道是哪个外来者。"
-    },
-    {
-        "id": "21.1_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/36/Spy.png/300px-Spy.png",
-        "name": "间谍&炼金术士",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果炼金术士获得了间谍的能力，他无法查看魔典，并且间谍不能被当作善良阵营、镇民角色或外来者角色。（炼金术士可能被当做善良的镇民或外来者角色，并可以因此在间谍查看魔典时被当作不同的角色。）"
-    },
-    {
-        "id": "22_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/1e/Widow.png/300px-Widow.png",
-        "name": "寡妇&魔术师",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "当寡妇查看魔典时，魔术师和恶魔的标记会被说书人移除。"
-    },
-    {
-        "id": "23_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/1e/Widow.png/300px-Widow.png",
-        "name": "寡妇&罂粟种植者",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果罂粟种植者在场，直到其死亡前寡妇无法查看魔典。寡妇会在罂粟种植者死后的首个夜晚触发自身的能力。"
-    },
-    {
-        "id": "24_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/1e/Widow.png/300px-Widow.png",
-        "name": "寡妇&落难少女",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果寡妇正在场或曾经在场，落难少女中毒。"
-    },
-    {
-        "id": "26_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/1e/Widow.png/300px-Widow.png",
-        "name": "寡妇&异端分子",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "异端分子会被寡妇当作一个不在场的外来者，异端分子会知道是哪个外来者。"
-    },
-    {
-        "id": "26.1_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/1e/Widow.png/300px-Widow.png",
-        "name": "寡妇&炼金术士",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果炼金术士获得了寡妇的能力，他无法查看魔典。(炼金术士仍然需要选择一名玩家：他中毒。随后，始终会有一名善良玩家知道寡妇在场。）"
-    },
-    {
-        "id": "27_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/d/dd/Godfather.png/300px-Godfather.png",
-        "name": "教父&异端分子",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "异端分子会被教父当作一个不在场的外来者，异端分子会知道是哪个外来者。"
-    },
-    {
-        "id": "28_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/3d/Marionette.png/300px-Marionette.png",
-        "name": "提线木偶&告密者",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "提线木偶不会得知三个不在场的角色，如果提线木偶与告密者均在场，改为由恶魔额外得知三个不在场角色。"
-    },
-    {
-        "id": "29_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/3d/Marionette.png/300px-Marionette.png",
-        "name": "提线木偶&小怪宝",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "提线木偶会与一名爪牙玩家邻座，而不是恶魔。提线木偶不会被唤醒来决定是否照看小怪宝，也不会在照看小怪宝时得知自己是提线木偶。"
-    },
-    {
-        "id": "30_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/3d/Marionette.png/300px-Marionette.png",
-        "name": "提线木偶&罂粟种植者",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "当罂粟种植者死亡后，恶魔会知道谁是提线木偶，但提线木偶什么都不会知道。"
-    },
-    {
-        "id": "31_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/3d/Marionette.png/300px-Marionette.png",
-        "name": "提线木偶&气球驾驶员",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果提线木偶抽到了气球驾驶员，也可能会+1外来者"
-    },
-    {
-        "id": "32_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/3d/Marionette.png/300px-Marionette.png",
-        "name": "提线木偶&落难少女",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "提线木偶不会得知落难少女在场。"
-    },
-    {
-        "id": "33_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/3d/Marionette.png/300px-Marionette.png",
-        "name": "提线木偶&巡山人",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果提线木偶抽到了巡山人，也会增加落难少女。"
-    },
-    {
-        "id": "34_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/4/40/Baron.png/300px-Baron.png",
-        "name": "男爵&异端分子",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果异端分子在剧本中，男爵的效果可能会只增加一个而非两个外来者。（全追慎用）"
-    },
-    {
-        "id": "35_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/f/ff/Organgrinder.png/300px-Organgrinder.png",
-        "name": "街头风琴手&管家",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果街头风琴手使得玩家需要闭眼投票，管家可以自由举手投票，但只在他的主人投票时他的票才会被统计。"
-    },
-    {
-        "id": "38_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/09/Vizier.png/300px-Vizier.png",
-        "name": "维齐尔&调查员",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果调查员的能力使其得知了维齐尔，则说书人不会告知所有人维齐尔在场。"
-    },
-    {
-        "id": "39_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/09/Vizier.png/300px-Vizier.png",
-        "name": "维齐尔&传教士",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果维齐尔失去能力，他会得知这一信息。如果传教士在剧本列表中，且维齐尔在具有能力时被处决，他的阵营获胜。"
-    },
-    {
-        "id": "40_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/09/Vizier.png/300px-Vizier.png",
-        "name": "维齐尔&侍臣",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果维齐尔失去能力，他会得知这一信息。如果侍臣在剧本列表中，且维齐尔在具有能力时被处决，他的阵营获胜。"
-    },
-    {
-        "id": "42_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/09/Vizier.png/300px-Vizier.png",
-        "name": "维齐尔&魔术师",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果维齐尔和魔术师都在场，恶魔不会得知谁是爪牙。"
-    },
-    {
-        "id": "43_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/09/Vizier.png/300px-Vizier.png",
-        "name": "维齐尔&恐惧之灵",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "在恐惧之灵因为自己的能力被唤醒时，维齐尔会一同被唤醒。他会得知恐惧之灵选择了哪名玩家，并且无法使用自己的能力让那名玩家立即被处决。"
-    },
-    {
-        "id": "44_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
-        "name": "召唤师&炼金术士",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果炼金术士获得了召唤师的能力，游戏会以初始有恶魔在场进行。炼金术士召唤师选择的玩家会变成恶魔但不会改变阵营。"
-    },
-    {
-        "id": "45_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
-        "name": "召唤师&钟表匠",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果召唤师在场，在创造恶魔之后钟表匠才会得知信息。"
-    },
-    {
-        "id": "46_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
-        "name": "召唤师&罂粟种植者",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果召唤师创造恶魔时罂粟种植者存活，由召唤师来选择创造哪种恶魔，由说书人来决定哪名玩家发生转变。"
-    },
-    {
-        "id": "47_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
-        "name": "召唤师&提线木偶",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "在初始设置时，提线木偶会与召唤师邻座。召唤师会得知谁是提线木偶。"
-    },
-    {
-        "id": "47.1_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
-        "name": "召唤师&侍臣",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果召唤师因为侍臣的能力在第三个夜晚醉酒，由召唤师来选择创造哪种恶魔，由说书人来决定哪名玩家发生转变。"
-    },
-    {
-        "id": "47.2_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
-        "name": "召唤师&僵怖",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果召唤师将一名已死亡的玩家变成了僵怖，该玩家会变成“已经死过一次”的僵怖。"
-    },
-    {
-        "id": "47.3_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
-        "name": "召唤师&普卡",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "召唤师可以选择在第二个夜晚将一名玩家变成普卡。"
-    },
-    {
-        "id": "47.4_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
-        "name": "召唤师&工程师",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果工程师的能力使得召唤师在使用自己的能力前离场，召唤师会在此前立即使用自己的能力。"
-    },
-    {
-        "id": "47.5_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
-        "name": "召唤师&传教士",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果召唤师在第三个夜晚或之前被传教士选中，由召唤师来选择创造哪种恶魔，由说书人来决定哪名玩家发生转变。"
-    },
-    {
-        "id": "48_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
-        "name": "召唤师&麻脸巫婆",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "召唤师无法创造已经在场的恶魔。如果召唤师创造了一名不在场的恶魔，当晚的死亡由说书人决定。"
-    },
-    {
-        "id": "48.1_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
-        "name": "召唤师&帽匠",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "召唤师无法创造已经在场的恶魔。如果召唤师创造了一个不在场的恶魔，当晚的死亡由说书人决定。"
-    },
-    {
-        "id": "109_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
-        "name": "召唤师&卡扎力",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "召唤师无法创造已经在场的恶魔。如果召唤师创造了一个不在场的恶魔，当晚的死亡由说书人决定。"
-    },
-    {
-        "id": "49_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
-        "name": "利维坦&士兵",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果利维坦在场，士兵免疫所有邪恶阵营的负面效果。"
-    },
-    {
-        "id": "50_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
-        "name": "利维坦&僧侣",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果利维坦在场，僧侣保护的玩家免疫所有邪恶阵营的负面效果。"
-    },
-    {
-        "id": "51_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
-        "name": "利维坦&旅店老板",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果利维坦在场，旅店老板保护的玩家免疫所有邪恶阵营的负面效果。"
-    },
-    {
-        "id": "52_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
-        "name": "利维坦&守鸦人",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "每个夜晚*，利维坦要选择一名存活的善良玩家（与之前的每个夜晚不同）：如果守鸦人被选择，他的能力生效但不会死亡。"
-    },
-    {
-        "id": "53_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
-        "name": "利维坦&贤者",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "每个夜晚*，利维坦要选择一名存活的善良玩家（与之前的每个夜晚不同）：如果贤者被选择，他的能力生效但不会死亡。。"
-    },
-    {
-        "id": "54_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
-        "name": "利维坦&报丧女妖",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "每个夜晚*，利维坦要选择一名存活的善良玩家（与之前的每个夜晚不同）：如果报丧女妖被选择，他死亡并能力生效。"
-    },
-    {
-        "id": "55_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
-        "name": "利维坦&农夫",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "每个夜晚*，利维坦要选择一名存活善良玩家（与之前的每个夜晚不同）：如果农夫被选择，他的能力生效但不会死亡。"
-    },
-    {
-        "id": "56_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
-        "name": "利维坦&镇长",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果利维坦在场，镇长存活且第五天没有处决发生，则善良阵营获胜。"
-    },
-    {
-        "id": "57_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
-        "name": "利维坦&国王",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果利维坦在场，当至少一名玩家死亡时，国王每晚就会得知一个存活的角色。"
-    },
-    {
-        "id": "58_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
-        "name": "利维坦&祖母",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果利维坦在场，孙子死于处决，祖母会一同死亡。"
-    },
-    {
-        "id": "58.1_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
-        "name": "利维坦&驱魔人",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果驱魔人存活并且成功选中过利维坦，即使有多于一名善良玩家被处决，邪恶阵营也不会获胜。"
-    },
-    {
-        "id": "58.2_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
-        "name": "利维坦&帽匠",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果帽匠在第五个白天或之后死亡，恶魔不能选择变成利维坦。"
-    },
-    {
-        "id": "58.3_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
-        "name": "利维坦&麻脸巫婆",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "在第五个白天之后，麻脸巫婆无法创造利维坦。"
-    },
-    {
-        "id": "59_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/09/Alhadikhia.png/300px-Alhadikhia.png",
-        "name": "哈迪寂亚&红唇女郎",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果出现两名存活的哈迪寂亚，则红唇女郎变成的哈迪寂亚会变回红唇女郎。"
-    },
-    {
-        "id": "60_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/09/Alhadikhia.png/300px-Alhadikhia.png",
-        "name": "哈迪寂亚&主谋",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果哈迪寂亚死于处决，且主谋存活，当晚哈迪寂亚要选择三名善良玩家：如果他们都选择存活，邪恶阵营获胜。否则，善良阵营获胜。"
-    },
-    {
-        "id": "61_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/39/Lilmonsta.png/300px-Lilmonsta.png",
-        "name": "小怪宝&罂粟种植者",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果罂粟种植者在场，爪牙们不会同时醒来选择照看小怪宝。他们会依次单独被唤醒，直到其中一人选择照看小怪宝。"
-    },
-    {
-        "id": "62_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/39/Lilmonsta.png/300px-Lilmonsta.png",
-        "name": "小怪宝&魔术师",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "每个夜晚，由魔术师来选择一个爪牙角色：如果他和小怪宝均存活，由他来照看小怪宝。"
-    },
-    {
-        "id": "63_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/39/Lilmonsta.png/300px-Lilmonsta.png",
-        "name": "小怪宝&红唇女郎",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果在五名及以上的玩家存活时照看小怪宝的玩家死亡，当晚红唇女郎必须要照看小怪宝。"
-    },
-    {
-        "id": "64_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/39/Lilmonsta.png/300px-Lilmonsta.png",
-        "name": "小怪宝&街头风琴手",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "街头风琴手与小怪宝的相克规则暂时被移除"
-    },
-    {
-        "id": "65_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/39/Lilmonsta.png/300px-Lilmonsta.png",
-        "name": "小怪宝&维齐尔",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "照看小怪宝的维齐尔能够死于处决。"
-    },
-    {
-        "id": "66_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/39/Lilmonsta.png/300px-Lilmonsta.png",
-        "name": "小怪宝&帽匠",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果恶魔选择了小怪宝，则还需要选择一个爪牙角色，他变成这个爪牙且当晚照看小怪宝。"
-    },
-    {
-        "id": "67_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/25/Legion.png/300px-Legion.png",
-        "name": "军团&工程师",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "军团和工程师不能在初始时同时在场。如果工程师创造了军团，那么包括所有邪恶玩家在内的绝大多数玩家都会变成邪恶的军团。"
-    },
-    {
-        "id": "68_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/25/Legion.png/300px-Legion.png",
-        "name": "军团&传教士",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果传教士选中了军团，军团仍然保留能力，但传教士可能会得知自己选中了军团。"
-    },
-    {
-        "id": "68888_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/25/Legion.png/300px-Legion.png",
-        "name": "军团&吟游诗人",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果军团死于处决，所有军团保留能力，但吟游诗人可能会在当晚得知今天白天死于处决的玩家是军团。"
-    },
-    {
-        "id": "69_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/25/Legion.png/300px-Legion.png",
-        "name": "军团&帽匠",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果帽匠死亡时军团在场，则无事发生。如果帽匠死亡时一名邪恶玩家选择变成军团，当前所有邪恶玩家都会一同变成军团。"
-    },
-    {
-        "id": "70_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/25/Legion.png/300px-Legion.png",
-        "name": "军团&召唤师",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果召唤师创造了军团，包括所有邪恶玩家在内的绝大多数玩家都会变成邪恶的军团。"
-    },
-    {
-        "id": "71_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/9/97/Fanggu.png/300px-Fanggu.png",
-        "name": "方古&红唇女郎",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果方古成功转化了外来者并因此死去，红唇女郎不会变成方古。"
-    },
-    {
-        "id": "77_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
-        "name": "暴乱&镇长",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "镇长可以停止提名。如果他这样做了，并且场上只有一名暴乱存活，善良阵营获胜；否则，邪恶阵营获胜。"
-    },
-    {
-        "id": "78_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
-        "name": "暴乱&僧侣",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果暴乱在场，僧侣保护的玩家免疫所有邪恶阵营的负面效果。"
-    },
-    {
-        "id": "79_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
-        "name": "暴乱&农夫",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "每个夜晚*，暴乱要选择一名存活的善良玩家（与之前的每个夜晚不同）：如果农夫被选择，他的能力生效但不会死亡。"
-    },
-    {
-        "id": "80_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
-        "name": "暴乱&旅店老板",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果暴乱在场，旅店老板保护的玩家免疫所有邪恶阵营的负面效果。"
-    },
-    {
-        "id": "81_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
-        "name": "暴乱&贤者",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "每个夜晚*，暴乱要选择一名存活的善良玩家（与之前的每个夜晚不同）：如果贤者被选择，他的能力生效但不会死亡。"
-    },
-    {
-        "id": "82_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
-        "name": "暴乱&守鸦人",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "每个夜晚*，暴乱要选择一名存活的善良玩家（与之前的每个夜晚不同）：如果守鸦人被选择，他的能力生效但不会死亡。"
-    },
-    {
-        "id": "83_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
-        "name": "暴乱&报丧女妖",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "每个夜晚*，暴乱要选择一名存活的善良玩家（与之前的每个夜晚不同）：如果报丧女妖被选择，他死亡并能力生效。"
-    },
-    {
-        "id": "84_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
-        "name": "暴乱&士兵",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果暴乱在场，士兵免疫所有邪恶阵营的负面效果。"
-    },
-    {
-        "id": "85_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
-        "name": "暴乱&祖母",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果暴乱在场，孙子在白天死亡，祖母会一同死亡。"
-    },
-    {
-        "id": "86_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
-        "name": "暴乱&国王",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果暴乱在场，当至少一名玩家死亡时，国王每晚就会得知一个存活的角色。"
-    },
-    {
-        "id": "87_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
-        "name": "暴乱&驱魔人",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果驱魔人在第三个夜晚选中了暴乱，爪牙不会变成暴乱。"
-    },
-    {
-        "id": "111_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/7/70/Lleech.png/300px-Lleech.png",
-        "name": "痢蛭&主谋",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果主谋存活且痢蛭的宿主死于处决，痢蛭存活但失去能力。"
-    },
-    {
-        "id": "102_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/7/70/Lleech.png/300px-Lleech.png",
-        "name": "痢蛭&猎手",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果猎手选择了痢蛭的宿主，则宿主会死亡。"
-    },
-    {
-        "id": "103_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/7/70/Lleech.png/300px-Lleech.png",
-        "name": "痢蛭&异端分子",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果痢蛭选择异端分子作为宿主，痢蛭死亡时异端分子仍会中毒。"
-    },
-    {
-        "id": "104_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/4/46/Kazali.png/300px-Kazali.png",
-        "name": "卡扎力&赏金猎人",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "在卡扎力行动完毕后，如果赏金猎人仍然在场，才会创造邪恶镇民。"
-    },
-    {
-        "id": "105_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/4/46/Kazali.png/300px-Kazali.png",
-        "name": "卡扎力&莽夫",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "卡扎力可以把莽夫转变成邪恶的爪牙。"
-    },
-    {
-        "id": "106_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/4/46/Kazali.png/300px-Kazali.png",
-        "name": "卡扎力&提线木偶",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果卡扎力选择创造提线木偶，他只能选择将自己的邻座玩家变成提线木偶。"
-    },
-    {
-        "id": "107_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/4/46/Kazali.png/300px-Kazali.png",
-        "name": "卡扎力&唱诗男孩",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果唱诗男孩在场，卡扎力在选择国王后无法将他变成爪牙。"
-    },
-    {
-        "id": "108_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/4/46/Kazali.png/300px-Kazali.png",
-        "name": "卡扎力&巡山人",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果卡扎力将落难少女变成了爪牙，并且巡山人在场，一名善良的玩家会变成落难少女。"
-    },
-    {
-        "id": "110_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/50/Yaggababble.png/300px-Yaggababble.png",
-        "name": "牙噶巴卜&驱魔人",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果驱魔人选中了牙噶巴卜，那么牙噶巴卜的能力在当晚无法造成死亡。"
-    },
-    {
-        "id": "112_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/7/78/Vortox.png/300px-Vortox.png",
-        "name": "涡流&报丧女妖",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果恶魔杀死报丧女妖时涡流在场，玩家仍然会得知正确信息。（中文百科上的“通用简化原则”已涵盖包括多角色互动下的涡流信息的简化处理方式，此条仅做说明。）"
-    },
-    {
-        "id": "113_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/d/de/Pithag.png/300px-Pithag.png",
-        "name": "麻脸巫婆&异教领袖",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "被麻脸巫婆创造的邪恶异教领袖无法因为自身能力转变为善良阵营。"
-    },
-    {
-        "id": "114_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/d/de/Pithag.png/300px-Pithag.png",
-        "name": "麻脸巫婆&莽夫",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "被麻脸巫婆创造的邪恶莽夫无法因为自身能力转变为善良阵营。"
-    },
-    {
-        "id": "116_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/09/Vizier.png/300px-Vizier.png",
-        "name": "维齐尔&政客",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "维齐尔的能力可能会将政客当作邪恶阵营。"
-    },
-    {
-        "id": "117_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/3a/Barber.png/300px-Barber.png",
-        "name": "理发师&异教领袖/莽夫/政客",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "参考麻脸巫婆。建议“恶魔无法将一名邪恶玩家与异教领袖/莽夫/政客交换角色，理发师的能力会因此被浪费”。"
-    },
-    {
-        "id": "118_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/3a/Barber.png/300px-Barber.png",
-        "name": "理发师&落难少女",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "参考麻脸巫婆。建议“如果恶魔选择交换落难少女的角色，参与角色交换的另一名玩家改为由说书人来决定”。"
-    },
-    {
-        "id": "119_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
-        "name": "戏子（改）&间谍",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "互为克星的角色在同一时间里只能有其中一个角色在场。"
-    },
-    {
-        "id": "121_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
-        "name": "戏子（改）&镜像双子",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "互为克星的角色在同一时间里只能有其中一个角色在场。"
-    },
-    {
-        "id": "122_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
-        "name": "戏子（改）&寡妇",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "互为克星的角色在同一时间里只能有其中一个角色在场。"
-    },
-    {
-        "id": "123_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
-        "name": "戏子（改）&召唤师",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "互为克星的角色在同一时间里只能有其中一个角色在场。"
-    },
-    {
-        "id": "124_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
-        "name": "戏子（改）&暴乱",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "互为克星的角色在同一时间里只能有其中一个角色在场。"
-    },
-    {
-        "id": "125_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
-        "name": "戏子（改）&军团",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "在戏子（改）存在于剧本中时，军团可以在游戏中任意时候向说书人示意自己“想要死亡”。说书人会在夜晚一同唤醒所有军团，并询问他们是否要一同死亡。"
-    },
-    {
-        "id": "126_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
-        "name": "戏子（改）&利维坦",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "在戏子（改）存在于剧本中时，利维坦可以在游戏中任意时候向说书人示意自己“想要死亡”。说书人会在当晚杀死这名玩家。"
-    },
-    {
-        "id": "127_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
-        "name": "戏子（改）&小怪宝",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "在戏子（改）存在于剧本中时，照看小怪宝的玩家可以在游戏中任意时候向说书人示意自己“想要死亡”。说书人会在当晚将小怪宝从游戏中移除。"
-    },
-    {
-        "id": "128_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
-        "name": "戏子（改）&普卡",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "在戏子（改）存在于剧本中时，普卡可以在游戏中任意时候向说书人示意自己“想要死亡”。说书人会在当晚杀死这名玩家。"
-    },
-    {
-        "id": "129_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
-        "name": "戏子（改）&哥布林",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "戏子（改）无法反转由哥布林的能力产生的胜负结果。"
-    },
-    {
-        "id": "130_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
-        "name": "戏子（改）&恐惧之灵",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "戏子（改）无法反转由恐惧之灵的能力产生的胜负结果。"
-    },
-    {
-        "id": "131_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
-        "name": "戏子（改）&麻脸巫婆",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "麻脸巫婆无法创造戏子（改），麻脸巫婆创造的邪恶玩家无法获得戏子（改）的能力。"
-    },
-    {
-        "id": "132_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
-        "name": "戏子（改）&科学怪人",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "科学怪人无法使恶魔获得戏子（改）的能力。"
-    },
-    {
-        "id": "133_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
-        "name": "戏子（改）&无神论者",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "无神论者在剧本中时，处决说书人导致的胜负结果不会被反转，无神论者不会因为戏子（改）的能力醉酒。"
-    },
-    {
-        "id": "13333333333333333_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
-        "name": "戏子（改）&疯子",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "疯子不会因为戏子（改）能力参与互认，也不会因为戏子（改）的能力醉酒。"
-    },
-    {
-        "id": "13333338883333_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
-        "name": "戏子（改）&国王",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "国王不会因为戏子（改）的能力醉酒。"
-    },
-    {
-        "id": "133333377733333_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
-        "name": "戏子（改）&告密者",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "告密者不会因为戏子（改）的能力醉酒。"
-    },
-    {
-        "id": "1333333366633_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
-        "name": "戏子（改）&落难少女",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "落难少女不会因为戏子（改）的能力醉酒。"
-    },
-    {
-        "id": "13339999999933_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
-        "name": "戏子（改）&书生",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "书生不会因为戏子（改）的能力醉酒。"
-    },
-    {
-        "id": "134_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c1/Lycanthrope.png/300px-Lycanthrope.png",
-        "name": "半兽人&打更人",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "本相克暂时被移除。"
-    },
-    {
-        "id": "135_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c1/Lycanthrope.png/300px-Lycanthrope.png",
-        "name": "半兽人&锦衣卫",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "本相克暂时被移除。"
-    },
-    {
-        "id": "136_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/a/a7/Wudaozhe.png/300px-Wudaozhe.png",
-        "name": "悟道者&村夫",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果村夫在场数量不足3人，悟道者可以变成新的村夫。如果因此使得村夫的在场数量超过1人，会有一名村夫醉酒。"
-    },
-    {
-        "id": "137_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
-        "name": "瘟疫医生&赶尸人",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果瘟疫医生死亡且说书人会因此获得赶尸人的能力，改为一名存活的爪牙玩家获得此能力，且他会得知此事。"
-    },
-    {
-        "id": "138_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
-        "name": "瘟疫医生&养蛊人",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果瘟疫医生死亡且说书人会因此获得养蛊人的能力，改为一名存活的爪牙玩家获得此能力，且他会得知此事。"
-    },
-    {
-        "id": "139_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
-        "name": "瘟疫医生&狐魅娘",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果瘟疫医生死亡且说书人会因此获得狐魅娘的能力，改为一名存活的爪牙玩家获得此能力，且他会得知此事。"
-    },
-    {
-        "id": "140_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/8/81/Heretic.png/300px-Heretic.png",
-        "name": "异端分子&狐魅娘",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "互为克星的角色在同一时间里只能有其中一个角色在场。"
-    },
-    {
-        "id": "141_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
-        "name": "暴乱&半仙",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "当且仅当暴乱提名了半仙时，半仙不会死亡，而是让另一名存活的邪恶玩家死亡。（随后那名死亡的邪恶玩家可以立即发起新的提名。如果场上已经没有其他存活的邪恶玩家，那么半仙在被唯一存活的暴乱提名时会正常死亡。）"
-    },
-    {
-        "id": "142_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
-        "name": "暴乱&打更人",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果在夜晚无人死亡，打更人的能力能保护下一个白天首次死亡的玩家（如果打更人的猜测正确）。然而集体免死的效果不会在白天触发，打更人也不会因此在白天死亡。"
-    },
-    {
-        "id": "143_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
-        "name": "暴乱&和尚",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果暴乱提名了与和尚邻近的存活玩家，那么那名玩家不会死亡，并且当晚和尚得知他的能力被触发。（如常在和尚旁放置“已生效”提示标记，因为黎明时才会移除此标记，因此当晚和尚无法再触发他的能力。）"
-    },
-    {
-        "id": "144_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
-        "name": "暴乱&逆臣",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "被提名且死亡的玩家算作被处决。"
-    },
-    {
-        "id": "145_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
-        "name": "暴乱&狐魅娘",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "被提名且死亡的玩家算作被处决。"
-    },
-    {
-        "id": "146_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
-        "name": "利维坦&和尚",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果利维坦发起的提名中被处决的玩家是与和尚邻近的存活玩家，那么那名玩家不会死亡，并且当晚和尚得知他的能力被触发。（如常在和尚旁放置“已生效”提示标记，因为黎明时才会移除此标记，因此当晚和尚无法再触发他的能力。）"
-    },
-    {
-        "id": "147_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/52/Taowu.png/300px-Taowu.png",
-        "name": "梼杌&红唇女郎",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "红唇女郎在梼杌的能力判断中被当作“不具有能力”。"
-    },
-    {
-        "id": "148_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/52/Taowu.png/300px-Taowu.png",
-        "name": "梼杌&镜像双子",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "镜像双子在梼杌的能力判断中被当作“不具有能力”。"
-    },
-    {
-        "id": "149_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/52/Taowu.png/300px-Taowu.png",
-        "name": "梼杌&主谋",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "主谋在梼杌的能力判断中被当作“不具有能力”。"
-    },
-    {
-        "id": "150_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/52/Taowu.png/300px-Taowu.png",
-        "name": "梼杌&街头风琴手",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "当梼杌被处决时，如果街头风琴手具有能力，说书人会宣布“无人被处决”。"
-    },
-    {
-        "id": "151_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/52/Taowu.png/300px-Taowu.png",
-        "name": "梼杌&提线木偶",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "梼杌不会得知谁是提线木偶。在梼杌使得提线木偶失去能力后，梼杌会得知对应的那一名提线木偶是谁，但提线木偶会仍然以为自己是一个善良角色。"
-    },
-    {
-        "id": "152_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/52/Taowu.png/300px-Taowu.png",
-        "name": "梼杌&帽匠",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果梼杌变成了其他角色，因为梼杌而失去能力的爪牙会立即死亡。"
-    },
-    {
-        "id": "153_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/52/Taowu.png/300px-Taowu.png",
-        "name": "梼杌&麻脸巫婆",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果梼杌变成了其他角色，因为梼杌而失去能力的爪牙会立即死亡。"
-    },
-    {
-        "id": "154_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/52/Taowu.png/300px-Taowu.png",
-        "name": "梼杌&工程师",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果梼杌变成了其他角色，因为梼杌而失去能力的爪牙会立即死亡。"
-    },
-    {
-        "id": "155_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/52/Taowu.png/300px-Taowu.png",
-        "name": "梼杌&舞蛇人",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果梼杌变成了其他角色，因为梼杌而失去能力的爪牙会立即死亡。"
-    },
-    {
-        "id": "156_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/52/Taowu.png/300px-Taowu.png",
-        "name": "梼杌&理发师",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果梼杌变成了其他角色，因为梼杌而失去能力的爪牙会立即死亡。"
-    },
-    {
-        "id": "165_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c5/Ogre.png/300px-Ogre.png",
-        "name": "食人魔&陌客",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果陌客被食人魔当作邪恶阵营，食人魔会得知自己转变为邪恶。"
-    },
-    {
-        "id": "167_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c5/Ogre.png/300px-Ogre.png",
-        "name": "食人魔&熬药巫婆",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "被麻脸巫婆创造的邪恶食人魔无法因为自身能力转变为善良阵营。"
-    },
-    {
-        "id": "168_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c5/Ogre.png/300px-Ogre.png",
-        "name": "食人魔&间谍",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "间谍必定被食人魔当作邪恶阵营。"
-    },
-    {
-        "id": "169_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/e/e0/Philosopher.png/300px-Philosopher.png",
-        "name": "哲学家&赏金猎人",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果哲学家获得了赏金猎人的能力，可能会有一名镇民玩家转变为邪恶。"
-    },
-    {
-        "id": "111111_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/d/d6/Alsaahir.png/300px-Alsaahir.png",
-        "name": "戏法师&维齐尔",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果维齐尔在场，戏法师在进行猜测时还需要猜测恶魔的具体角色。"
-    },
-    {
-        "id": "1111342352345_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/1/1a/Zealot.png",
-        "name": "狂热者&食人族",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果食人族获得了狂热者的能力，他会得知这一信息。"
-    },
-    {
-        "id": "111232323231_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/1/1a/Zealot.png",
-        "name": "狂热者&维齐尔",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "维齐尔的能力可能会将狂热者当作邪恶阵营。"
-    },
-    {
-        "id": "11122233333_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/1/1a/Zealot.png",
-        "name": "狂热者&军团",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "军团的能力可能会将狂热者当作邪恶阵营。"
-    },
-    {
-        "id": "1122333_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/1/1a/Zealot.png",
-        "name": "狂热者&暴乱",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "狂热者在被提名后必须立马发起提名，即使自己已死亡。"
-    },
-    {
-        "id": "112312312312312122333_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/1/18/Lordoftyphon.png",
-        "name": "堤丰之首&召唤师",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果召唤师创造了堤丰之首，则堤丰之首必须与一名爪牙相邻，且堤丰之首另一侧的玩家变成一个不在场的邪恶爪牙。"
-    },
-    {
-        "id": "112222222226662222222222222222222333_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/f/f1/Boffin.png",
-        "name": "科学怪人&村夫",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果村夫在场数量不足3人，科学怪人可以让恶魔拥有村夫的能力。"
-    },
-    {
-        "id": "11222222222222244422222222222333_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/f/f1/Boffin.png",
-        "name": "科学怪人&异教领袖",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果恶魔拥有异教领袖的能力，他无法因为该能力转变为善良阵营。"
-    },
-    {
-        "id": "112222222222222222222225552333_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/f/f1/Boffin.png",
-        "name": "科学怪人&莽夫",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果恶魔拥有莽夫的能力，他无法因为该能力转变为善良阵营。"
-    },
-    {
-        "id": "1122222222222343422222222222222222333_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/f/f1/Boffin.png",
-        "name": "科学怪人&异端分子",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "恶魔无法拥有异端分子的能力。"
-    },
-    {
-        "id": "1122222222222222222222222353578822222333_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/f/f1/Boffin.png",
-        "name": "科学怪人&食人魔",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "恶魔无法拥有食人魔的能力。"
-    },
-    {
-        "id": "112222222299999222222222222222333_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/f/f1/Boffin.png",
-        "name": "科学怪人&政客",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "恶魔无法拥有政客的能力。"
-    },
-    {
-        "id": "1122000000222222222222222333_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/f/f1/Boffin.png",
-        "name": "科学怪人&酒鬼",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果恶魔拥有酒鬼的能力，改为由科学怪人选择一名玩家：如果他是镇民，他醉酒。"
-    },
-    {
-        "id": "112222222222435325645742222222222222333_meta",
-        "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/alchemist.png",
-        "name": "炼金术士&科学怪人",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果炼金术士拥有科学怪人的能力，炼金术士不会得知恶魔因此获得了哪个角色的能力。"
-    },
-    {
-        "id": "137771_meta",
-        "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/kazali.png",
-        "name": "卡扎力&士兵",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "卡扎力可以把士兵转变成邪恶的爪牙。"
-    },
-    {
-        "id": "121321341245_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/4/46/Kazali.png/300px-Kazali.png",
-        "name": "卡扎力&半仙",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "卡扎力可以把半仙转变成邪恶的爪牙。"
-    },
-    {
-        "id": "167789696805_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/4/46/Kazali.png/300px-Kazali.png",
-        "name": "卡扎力&和尚",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "卡扎力可以把与和尚邻近的玩家转变成邪恶的爪牙。"
-    },
-    {
-        "id": "56786542_meta",
-        "image": "https://clocktower-wiki.gstonegames.com/images/thumb/e/ed/Cannibal.png/300px-Cannibal.png",
-        "name": "食人族&罂粟种植者",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果食人族获得了罂粟种植者的能力，当他获得下一个能力时，爪牙和恶魔也会互相认识。"
-    },
-    {
-        "id": "1233543467_meta",
-        "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/yinluren.png",
-        "name": "引路人&侍女",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "侍女会得知引路人是否醒来，即使她是在引路人之前醒来。"
-    },
-    {
-        "id": "123222_meta",
-        "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/yinluren.png",
-        "name": "引路人&数学家",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "引路人会得知数学家是否被影响，即使他是在数学家之前醒来。"
-    },
-    {
-        "id": "123888_meta",
-        "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/rulianshi.png",
-        "name": "入殓师&红唇女郎",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "入殓师提名并处决了恶魔并成功变成邪恶恶魔时，红唇女郎不会变成恶魔。"
-    },
-    {
-        "id": "12322999_meta",
-        "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/rulianshi.png",
-        "name": "入殓师&哈迪寂亚",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果出现两名存活的哈迪寂亚，则入殓师变成的哈迪寂亚会变回入殓师，但阵营保持邪恶。"
-    },
-    {
-        "id": "1237772_meta",
-        "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/rulianshi.png",
-        "name": "入殓师&小怪宝",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果在五名及以上的玩家存活时，入殓师提名并处决了照看小怪宝的玩家，入殓师会变为邪恶的该角色，当晚原入殓师玩家必须要照看小怪宝。"
-    },
-    {
-        "id": "126662_meta",
-        "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/rulianshi.png",
-        "name": "入殓师&痢蛭",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果在大于等于五名玩家存活时，入殓师提名并处决了宿主且他死于这次处决，原本的痢蛭会在当晚死亡，入殓师变为邪恶的痢蛭且当晚无法攻击。"
-    },
-    {
-        "id": "18_meta",
-        "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/alchemist.png",
-        "name": "炼金术士&间谍",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果炼金术士获得了间谍的能力，他无法查看魔典，并且间谍不能被当作善良阵营、镇民角色或外来者角色。"
-    },
-    {
-        "id": "25_meta",
-        "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/alchemist.png",
-        "name": "炼金术士&寡妇",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果炼金术士获得了寡妇的能力，他无法查看魔典。"
-    },
-    {
-        "id": "2511_meta",
-        "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/limao.png",
-        "name": "狸猫&教授",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果狸猫与使用过能力的教授交换角色，新教授仍然失去能力。"
-    },
-    {
-        "id": "25112_meta",
-        "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/limao.png",
-        "name": "狸猫&报丧女妖",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "如果狸猫与报丧女妖交换角色，不会触发报丧女妖的能力。"
-    },
-    {
-        "id": "25131_meta",
-        "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/limao.png",
-        "name": "狸猫&利维坦",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "每个夜晚*，利维坦要选择一名存活的善良玩家（与之前的每个夜晚不同）：如果“太子”被选择，他会与狸猫交换角色但不会死亡。"
-    },
-    {
-        "id": "25451_meta",
-        "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/limao.png",
-        "name": "狸猫&暴乱",
-        "team": "a jinxed",
-        "setup": 0,
-        "ability": "每个夜晚*，暴乱要选择一名存活的善良玩家（与之前的每个夜晚不同）：如果“太子”被选择，他会与狸猫交换角色但不会死亡。"
-    },
+  {
+    "id": "0_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/00/Chambermaid.png/300px-Chambermaid.png",
+    "name": "侍女&数学家",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "侍女会得知数学家是否醒来，即使她是在数学家之前醒来。"
+},
+  {
+    "id": "0.12_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/06/Mathematician.png/300px-Mathematician.png",
+    "name": "数学家&疯子",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "数学家会得知疯子是否攻击了与真正的恶魔不同的目标。"
+},
+  {
+    "id": "2_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/e/ed/Cannibal.png/300px-Cannibal.png",
+    "name": "食人族&管家",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果食人族获得了管家的能力，他会得知这一信息。"
+  },
+  {
+    "id": "166_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/e/ed/Cannibal.png/300px-Cannibal.png",
+    "name": "食人族&杂耍艺人",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果杂耍艺人在自己的首个白天猜测后在当天死于处决，当晚食人族会替杂耍艺人得知对应的信息。"
+  },
+  {
+    "id": "4_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
+    "name": "瘟疫医生&男爵",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果说书人获得了男爵的能力，至多两名玩家会变成不在场的外来者。"
+  },
+  {
+    "id": "5_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
+    "name": "瘟疫医生&炸弹人",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果瘟疫医生死于处决且说书人会因此获得炸弹人的能力，那么炸弹人的能力会立即被触发。"
+  },
+  {
+    "id": "6_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
+    "name": "瘟疫医生&镜像双子",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "说书人无法在瘟疫医生死亡时获得镜像双子的能力。"
+  },
+  {
+    "id": "7_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
+    "name": "瘟疫医生&提线木偶",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果在瘟疫医生死亡时说书人获得了提线木偶的能力，且与恶魔邻座的存活玩家中有镇民或外来者，其中一名玩家会变成邪恶的提线木偶。如果此时场上的邪恶玩家数量比初始设置时的数量超出一名或更多，改为无事发生。"
+  },
+  {
+    "id": "8_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
+    "name": "瘟疫医生&恐惧之灵",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果瘟疫医生死亡且说书人会因此获得恐惧之灵的能力，改为一名存活的爪牙玩家获得此能力，且他会得知此事。"
+  },
+  {
+    "id": "9_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
+    "name": "瘟疫医生&哥布林",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果瘟疫医生死亡且说书人会因此获得哥布林的能力，改为一名存活的爪牙玩家获得此能力，且他会得知此事。"
+  },
+  {
+    "id": "10_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
+    "name": "瘟疫医生&红唇女郎",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果瘟疫医生死亡且说书人会因此获得红唇女郎的能力，改为一名存活的爪牙玩家获得此能力，且他会得知此事。"
+  },
+  {
+    "id": "11_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
+    "name": "瘟疫医生&间谍",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果瘟疫医生死亡且说书人会因此获得间谍的能力，改为一名存活的爪牙玩家获得此能力，且他会得知此事。"
+  },
+  {
+    "id": "12_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/d/de/Pithag.png/300px-Pithag.png",
+    "name": "麻脸巫婆&异端分子",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "麻脸巫婆无法创造异端分子。"
+  },
+  {
+    "id": "13_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/d/de/Pithag.png/300px-Pithag.png",
+    "name": "麻脸巫婆&落难少女",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果麻脸巫婆创造了落难少女，改为由说书人来决定哪一名玩家变成落难少女。"
+  },
+  {
+    "id": "14_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/d/de/Pithag.png/300px-Pithag.png",
+    "name": "麻脸巫婆&政客",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "被麻脸巫婆创造的邪恶政客无法因为自身能力转变为善良阵营。"
+  },
+  {
+    "id": "15_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/d/de/Pithag.png/300px-Pithag.png",
+    "name": "麻脸巫婆&村夫",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果村夫在场数量不足3人，麻脸巫婆可以创造新的村夫。如果她这么做，村夫的醉酒效果可能会更换目标。"
+  },
+  {
+    "id": "16_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/4/4d/Cerenovus.png/300px-Cerenovus.png",
+    "name": "洗脑师&哥布林",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "洗脑师可以选择将玩家洗脑成哥布林。"
+  },
+  {
+    "id": "17_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/36/Spy.png/300px-Spy.png",
+    "name": "间谍&魔术师",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "当间谍查看魔典时，魔术师和恶魔的角色标记会被说书人移除。"
+  },
+  {
+    "id": "19_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/36/Spy.png/300px-Spy.png",
+    "name": "间谍&罂粟种植者",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果罂粟种植者在场，直到其死亡前间谍无法查看魔典。"
+  },
+  {
+    "id":  "20_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/36/Spy.png/300px-Spy.png",
+    "name": "间谍&落难少女",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果间谍正在场或曾经在场，落难少女中毒。"
+  },
+  {
+    "id": "21_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/36/Spy.png/300px-Spy.png",
+    "name": "间谍&异端分子",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "异端分子会被间谍当作一个不在场的外来者，异端分子会知道是哪个外来者。"
+  },
+  {
+    "id": "21.1_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/36/Spy.png/300px-Spy.png",
+    "name": "间谍&炼金术士",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果炼金术士获得了间谍的能力，他无法查看魔典，并且间谍不能被当作善良阵营、镇民角色或外来者角色。（炼金术士可能被当做善良的镇民或外来者角色，并可以因此在间谍查看魔典时被当作不同的角色。）"
+  },
+  {
+    "id": "22_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/1e/Widow.png/300px-Widow.png",
+    "name": "寡妇&魔术师",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "当寡妇查看魔典时，魔术师和恶魔的标记会被说书人移除。"
+  },
+  {
+    "id": "23_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/1e/Widow.png/300px-Widow.png",
+    "name": "寡妇&罂粟种植者",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果罂粟种植者在场，直到其死亡前寡妇无法查看魔典。寡妇会在罂粟种植者死后的首个夜晚触发自身的能力。"
+  },
+  {
+    "id": "24_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/1e/Widow.png/300px-Widow.png",
+    "name": "寡妇&落难少女",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果寡妇正在场或曾经在场，落难少女中毒。"
+  },
+  {
+    "id": "26_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/1e/Widow.png/300px-Widow.png",
+    "name": "寡妇&异端分子",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "异端分子会被寡妇当作一个不在场的外来者，异端分子会知道是哪个外来者。"
+  },
+  {
+    "id": "26.1_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/1e/Widow.png/300px-Widow.png",
+    "name": "寡妇&炼金术士",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果炼金术士获得了寡妇的能力，他无法查看魔典。(炼金术士仍然需要选择一名玩家：他中毒。随后，始终会有一名善良玩家知道寡妇在场。）"
+  },
+  {
+    "id": "27_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/d/dd/Godfather.png/300px-Godfather.png",
+    "name": "教父&异端分子",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "异端分子会被教父当作一个不在场的外来者，异端分子会知道是哪个外来者。"
+  },
+  {
+    "id": "28_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/3d/Marionette.png/300px-Marionette.png",
+    "name": "提线木偶&告密者",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "提线木偶不会得知三个不在场的角色，如果提线木偶与告密者均在场，改为由恶魔额外得知三个不在场角色。"
+  },
+  {
+    "id": "29_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/3d/Marionette.png/300px-Marionette.png",
+    "name": "提线木偶&小怪宝",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "提线木偶会与一名爪牙玩家邻座，而不是恶魔。提线木偶不会被唤醒来决定是否照看小怪宝，也不会在照看小怪宝时得知自己是提线木偶。"
+  },
+  {
+    "id": "30_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/3d/Marionette.png/300px-Marionette.png",
+    "name": "提线木偶&罂粟种植者",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "当罂粟种植者死亡后，恶魔会知道谁是提线木偶，但提线木偶什么都不会知道。"
+  },
+  {
+    "id": "31_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/3d/Marionette.png/300px-Marionette.png",
+    "name": "提线木偶&气球驾驶员",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果提线木偶抽到了气球驾驶员，也可能会+1外来者"
+  },
+  {
+    "id": "32_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/3d/Marionette.png/300px-Marionette.png",
+    "name": "提线木偶&落难少女",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "提线木偶不会得知落难少女在场。"
+  },
+  {
+    "id": "33_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/3d/Marionette.png/300px-Marionette.png",
+    "name": "提线木偶&巡山人",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果提线木偶抽到了巡山人，也会增加落难少女。"
+  },
+  {
+    "id": "34_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/4/40/Baron.png/300px-Baron.png",
+    "name": "男爵&异端分子",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果异端分子在剧本中，男爵的效果可能会只增加一个而非两个外来者。（全追慎用）"
+  },
+  {
+    "id": "35_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/f/ff/Organgrinder.png/300px-Organgrinder.png",
+    "name": "街头风琴手&管家",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果街头风琴手使得玩家需要闭眼投票，管家可以自由举手投票，但只在他的主人投票时他的票才会被统计。"
+  },
+  {
+    "id": "38_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/09/Vizier.png/300px-Vizier.png",
+    "name": "维齐尔&调查员",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果调查员的能力使其得知了维齐尔，则说书人不会告知所有人维齐尔在场。"
+  },
+  {
+    "id": "39_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/09/Vizier.png/300px-Vizier.png",
+    "name": "维齐尔&传教士",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果维齐尔失去能力，他会得知这一信息。如果传教士在剧本列表中，且维齐尔在具有能力时被处决，他的阵营获胜。"
+  },
+  {
+    "id": "40_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/09/Vizier.png/300px-Vizier.png",
+    "name": "维齐尔&侍臣",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果维齐尔失去能力，他会得知这一信息。如果侍臣在剧本列表中，且维齐尔在具有能力时被处决，他的阵营获胜。"
+  },
+  {
+    "id": "42_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/09/Vizier.png/300px-Vizier.png",
+    "name": "维齐尔&魔术师",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果维齐尔和魔术师都在场，恶魔不会得知谁是爪牙。"
+  },
+  {
+    "id": "43_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/09/Vizier.png/300px-Vizier.png",
+    "name": "维齐尔&恐惧之灵",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "在恐惧之灵因为自己的能力被唤醒时，维齐尔会一同被唤醒。他会得知恐惧之灵选择了哪名玩家，并且无法使用自己的能力让那名玩家立即被处决。"
+  },
+  {
+    "id": "44_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
+    "name": "召唤师&炼金术士",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果炼金术士获得了召唤师的能力，游戏会以初始有恶魔在场进行。炼金术士召唤师选择的玩家会变成恶魔但不会改变阵营。"
+  },
+  {
+    "id": "45_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
+    "name": "召唤师&钟表匠",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果召唤师在场，在创造恶魔之后钟表匠才会得知信息。"
+  },
+  {
+    "id": "46_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
+    "name": "召唤师&罂粟种植者",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果召唤师创造恶魔时罂粟种植者存活，由召唤师来选择创造哪种恶魔，由说书人来决定哪名玩家发生转变。"
+  },
+  {
+    "id": "47_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
+    "name": "召唤师&提线木偶",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "在初始设置时，提线木偶会与召唤师邻座。召唤师会得知谁是提线木偶。"
+  },
+  {
+    "id": "47.1_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
+    "name": "召唤师&侍臣",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果召唤师因为侍臣的能力在第三个夜晚醉酒，由召唤师来选择创造哪种恶魔，由说书人来决定哪名玩家发生转变。"
+  },
+  {
+    "id": "47.2_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
+    "name": "召唤师&僵怖",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果召唤师将一名已死亡的玩家变成了僵怖，该玩家会变成“已经死过一次”的僵怖。"
+  },
+  {
+    "id": "47.3_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
+    "name": "召唤师&普卡",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "召唤师可以选择在第二个夜晚将一名玩家变成普卡。"
+  },
+  {
+    "id": "47.4_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
+    "name": "召唤师&工程师",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果工程师的能力使得召唤师在使用自己的能力前离场，召唤师会在此前立即使用自己的能力。"
+  },
+  {
+    "id": "47.5_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
+    "name": "召唤师&传教士",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果召唤师在第三个夜晚或之前被传教士选中，由召唤师来选择创造哪种恶魔，由说书人来决定哪名玩家发生转变。"
+  },
+  {
+    "id": "48_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
+    "name": "召唤师&麻脸巫婆",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "召唤师无法创造已经在场的恶魔。如果召唤师创造了一名不在场的恶魔，当晚的死亡由说书人决定。"
+  },
+  {
+    "id": "48.1_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
+    "name": "召唤师&帽匠",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "召唤师无法创造已经在场的恶魔。如果召唤师创造了一个不在场的恶魔，当晚的死亡由说书人决定。"
+  },
+  {
+    "id": "109_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2f/Summoner.png/300px-Summoner.png",
+    "name": "召唤师&卡扎力",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "召唤师无法创造已经在场的恶魔。如果召唤师创造了一个不在场的恶魔，当晚的死亡由说书人决定。"
+  },
+  {
+    "id": "49_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
+    "name": "利维坦&士兵",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果利维坦在场，士兵免疫所有邪恶阵营的负面效果。"
+  },
+  {
+    "id": "50_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
+    "name": "利维坦&僧侣",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果利维坦在场，僧侣保护的玩家免疫所有邪恶阵营的负面效果。"
+  },
+  {
+    "id": "51_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
+    "name": "利维坦&旅店老板",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果利维坦在场，旅店老板保护的玩家免疫所有邪恶阵营的负面效果。"
+  },
+  {
+    "id": "52_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
+    "name": "利维坦&守鸦人",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "每个夜晚*，利维坦要选择一名存活的善良玩家（与之前的每个夜晚不同）：如果守鸦人被选择，他的能力生效但不会死亡。"
+  },
+  {
+    "id": "53_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
+    "name": "利维坦&贤者",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "每个夜晚*，利维坦要选择一名存活的善良玩家（与之前的每个夜晚不同）：如果贤者被选择，他的能力生效但不会死亡。。"
+  },
+  {
+    "id": "54_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
+    "name": "利维坦&报丧女妖",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "每个夜晚*，利维坦要选择一名存活的善良玩家（与之前的每个夜晚不同）：如果报丧女妖被选择，他死亡并能力生效。"
+  },
+  {
+    "id": "55_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
+    "name": "利维坦&农夫",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "每个夜晚*，利维坦要选择一名存活善良玩家（与之前的每个夜晚不同）：如果农夫被选择，他的能力生效但不会死亡。"
+  },
+  {
+    "id": "56_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
+    "name": "利维坦&镇长",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果利维坦在场，镇长存活且第五天没有处决发生，则善良阵营获胜。"
+  },
+  {
+    "id": "57_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
+    "name": "利维坦&国王",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果利维坦在场，当至少一名玩家死亡时，国王每晚就会得知一个存活的角色。"
+  },
+  {
+    "id": "58_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
+    "name": "利维坦&祖母",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果利维坦在场，孙子死于处决，祖母会一同死亡。"
+  },
+  {
+    "id": "58.1_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
+    "name": "利维坦&驱魔人",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果驱魔人存活并且成功选中过利维坦，即使有多于一名善良玩家被处决，邪恶阵营也不会获胜。"
+  },
+  {
+    "id": "58.2_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
+    "name": "利维坦&帽匠",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果帽匠在第五个白天或之后死亡，恶魔不能选择变成利维坦。"
+  },
+  {
+    "id": "58.3_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
+    "name": "利维坦&麻脸巫婆",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "在第五个白天之后，麻脸巫婆无法创造利维坦。"
+  },
+  {
+    "id": "59_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/09/Alhadikhia.png/300px-Alhadikhia.png",
+    "name": "哈迪寂亚&红唇女郎",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果出现两名存活的哈迪寂亚，则红唇女郎变成的哈迪寂亚会变回红唇女郎。"
+  },
+  {
+    "id": "60_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/09/Alhadikhia.png/300px-Alhadikhia.png",
+    "name": "哈迪寂亚&主谋",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果哈迪寂亚死于处决，且主谋存活，当晚哈迪寂亚要选择三名善良玩家：如果他们都选择存活，邪恶阵营获胜。否则，善良阵营获胜。"
+  },
+  {
+    "id": "61_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/39/Lilmonsta.png/300px-Lilmonsta.png",
+    "name": "小怪宝&罂粟种植者",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果罂粟种植者在场，爪牙们不会同时醒来选择照看小怪宝。他们会依次单独被唤醒，直到其中一人选择照看小怪宝。"
+  },
+  {
+    "id": "62_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/39/Lilmonsta.png/300px-Lilmonsta.png",
+    "name": "小怪宝&魔术师",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "每个夜晚，由魔术师来选择一个爪牙角色：如果他和小怪宝均存活，由他来照看小怪宝。"
+  },
+  {
+    "id": "63_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/39/Lilmonsta.png/300px-Lilmonsta.png",
+    "name": "小怪宝&红唇女郎",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果在五名及以上的玩家存活时照看小怪宝的玩家死亡，当晚红唇女郎必须要照看小怪宝。"
+  },
+  {
+    "id": "64_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/39/Lilmonsta.png/300px-Lilmonsta.png",
+    "name": "小怪宝&街头风琴手",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "街头风琴手与小怪宝的相克规则暂时被移除"
+  },
+  {
+    "id": "65_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/39/Lilmonsta.png/300px-Lilmonsta.png",
+    "name": "小怪宝&维齐尔",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "照看小怪宝的维齐尔能够死于处决。"
+  },
+  {
+    "id": "66_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/39/Lilmonsta.png/300px-Lilmonsta.png",
+    "name": "小怪宝&帽匠",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果恶魔选择了小怪宝，则还需要选择一个爪牙角色，他变成这个爪牙且当晚照看小怪宝。"
+  },
+  {
+    "id": "67_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/25/Legion.png/300px-Legion.png",
+    "name": "军团&工程师",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "军团和工程师不能在初始时同时在场。如果工程师创造了军团，那么包括所有邪恶玩家在内的绝大多数玩家都会变成邪恶的军团。"
+  },
+  {
+    "id": "68_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/25/Legion.png/300px-Legion.png",
+    "name": "军团&传教士",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果传教士选中了军团，军团仍然保留能力，但传教士可能会得知自己选中了军团。"
+  },
+  {
+    "id": "68888_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/25/Legion.png/300px-Legion.png",
+    "name": "军团&吟游诗人",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果军团死于处决，所有军团保留能力，但吟游诗人可能会在当晚得知今天白天死于处决的玩家是军团。"
+  },
+  {
+    "id": "69_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/25/Legion.png/300px-Legion.png",
+    "name": "军团&帽匠",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果帽匠死亡时军团在场，则无事发生。如果帽匠死亡时一名邪恶玩家选择变成军团，当前所有邪恶玩家都会一同变成军团。"
+  },
+  {
+    "id": "70_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/25/Legion.png/300px-Legion.png",
+    "name": "军团&召唤师",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果召唤师创造了军团，包括所有邪恶玩家在内的绝大多数玩家都会变成邪恶的军团。"
+  },
+  {
+    "id": "71_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/9/97/Fanggu.png/300px-Fanggu.png",
+    "name": "方古&红唇女郎",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果方古成功转化了外来者并因此死去，红唇女郎不会变成方古。"
+  },
+  {
+    "id": "77_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
+    "name": "暴乱&镇长",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "镇长可以停止提名。如果他这样做了，并且场上只有一名暴乱存活，善良阵营获胜；否则，邪恶阵营获胜。"
+  },
+  {
+    "id": "78_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
+    "name": "暴乱&僧侣",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果暴乱在场，僧侣保护的玩家免疫所有邪恶阵营的负面效果。"
+  },
+  {
+    "id": "79_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
+    "name": "暴乱&农夫",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "每个夜晚*，暴乱要选择一名存活的善良玩家（与之前的每个夜晚不同）：如果农夫被选择，他的能力生效但不会死亡。"
+  },
+  {
+    "id": "80_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
+    "name": "暴乱&旅店老板",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果暴乱在场，旅店老板保护的玩家免疫所有邪恶阵营的负面效果。"
+  },
+  {
+    "id": "81_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
+    "name": "暴乱&贤者",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "每个夜晚*，暴乱要选择一名存活的善良玩家（与之前的每个夜晚不同）：如果贤者被选择，他的能力生效但不会死亡。"
+  },
+  {
+    "id": "82_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
+    "name": "暴乱&守鸦人",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "每个夜晚*，暴乱要选择一名存活的善良玩家（与之前的每个夜晚不同）：如果守鸦人被选择，他的能力生效但不会死亡。"
+  },
+  {
+    "id": "83_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
+    "name": "暴乱&报丧女妖",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "每个夜晚*，暴乱要选择一名存活的善良玩家（与之前的每个夜晚不同）：如果报丧女妖被选择，他死亡并能力生效。"
+  },
+  {
+    "id": "84_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
+    "name": "暴乱&士兵",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果暴乱在场，士兵免疫所有邪恶阵营的负面效果。"
+  },
+  {
+    "id": "85_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
+    "name": "暴乱&祖母",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果暴乱在场，孙子在白天死亡，祖母会一同死亡。"
+  },
+  {
+    "id": "86_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
+    "name": "暴乱&国王",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果暴乱在场，当至少一名玩家死亡时，国王每晚就会得知一个存活的角色。"
+  },
+  {
+    "id": "87_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
+    "name": "暴乱&驱魔人",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果驱魔人在第三个夜晚选中了暴乱，爪牙不会变成暴乱。"
+  },
+  {
+    "id": "111_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/7/70/Lleech.png/300px-Lleech.png",
+    "name": "痢蛭&主谋",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果主谋存活且痢蛭的宿主死于处决，痢蛭存活但失去能力。"
+  },
+  {
+    "id": "102_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/7/70/Lleech.png/300px-Lleech.png",
+    "name": "痢蛭&猎手",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果猎手选择了痢蛭的宿主，则宿主会死亡。"
+  },
+  {
+    "id": "103_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/7/70/Lleech.png/300px-Lleech.png",
+    "name": "痢蛭&异端分子",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果痢蛭选择异端分子作为宿主，痢蛭死亡时异端分子仍会中毒。"
+  },
+  {
+    "id": "104_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/4/46/Kazali.png/300px-Kazali.png",
+    "name": "卡扎力&赏金猎人",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "在卡扎力行动完毕后，如果赏金猎人仍然在场，才会创造邪恶镇民。"
+  },
+  {
+    "id": "105_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/4/46/Kazali.png/300px-Kazali.png",
+    "name": "卡扎力&莽夫",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "卡扎力可以把莽夫转变成邪恶的爪牙。"
+  },
+  {
+    "id": "106_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/4/46/Kazali.png/300px-Kazali.png",
+    "name": "卡扎力&提线木偶",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果卡扎力选择创造提线木偶，他只能选择将自己的邻座玩家变成提线木偶。"
+  },
+  {
+    "id": "107_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/4/46/Kazali.png/300px-Kazali.png",
+    "name": "卡扎力&唱诗男孩",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果唱诗男孩在场，卡扎力在选择国王后无法将他变成爪牙。"
+  },
+  {
+    "id": "108_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/4/46/Kazali.png/300px-Kazali.png",
+    "name": "卡扎力&巡山人",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果卡扎力将落难少女变成了爪牙，并且巡山人在场，一名善良的玩家会变成落难少女。"
+  },
+  {
+    "id": "110_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/50/Yaggababble.png/300px-Yaggababble.png",
+    "name": "牙噶巴卜&驱魔人",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果驱魔人选中了牙噶巴卜，那么牙噶巴卜的能力在当晚无法造成死亡。"
+  },
+  {
+    "id": "112_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/7/78/Vortox.png/300px-Vortox.png",
+    "name": "涡流&报丧女妖",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果恶魔杀死报丧女妖时涡流在场，玩家仍然会得知正确信息。（中文百科上的“通用简化原则”已涵盖包括多角色互动下的涡流信息的简化处理方式，此条仅做说明。）"
+  },
+  {
+    "id": "113_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/d/de/Pithag.png/300px-Pithag.png",
+    "name": "麻脸巫婆&异教领袖",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "被麻脸巫婆创造的邪恶异教领袖无法因为自身能力转变为善良阵营。"
+  },
+  {
+    "id": "114_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/d/de/Pithag.png/300px-Pithag.png",
+    "name": "麻脸巫婆&莽夫",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "被麻脸巫婆创造的邪恶莽夫无法因为自身能力转变为善良阵营。"
+  },
+  {
+    "id": "116_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/09/Vizier.png/300px-Vizier.png",
+    "name": "维齐尔&政客",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "维齐尔的能力可能会将政客当作邪恶阵营。"
+  },
+  {
+    "id": "117_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/3a/Barber.png/300px-Barber.png",
+    "name": "理发师&异教领袖/莽夫/政客",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "参考麻脸巫婆。建议“恶魔无法将一名邪恶玩家与异教领袖/莽夫/政客交换角色，理发师的能力会因此被浪费”。"
+  },
+  {
+    "id": "118_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/3/3a/Barber.png/300px-Barber.png",
+    "name": "理发师&落难少女",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "参考麻脸巫婆。建议“如果恶魔选择交换落难少女的角色，参与角色交换的另一名玩家改为由说书人来决定”。"
+  },
+  {
+    "id": "119_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
+    "name": "戏子（改）&间谍",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "互为克星的角色在同一时间里只能有其中一个角色在场。"
+  },
+  {
+    "id": "121_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
+    "name": "戏子（改）&镜像双子",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "互为克星的角色在同一时间里只能有其中一个角色在场。"
+  },
+  {
+    "id": "122_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
+    "name": "戏子（改）&寡妇",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "互为克星的角色在同一时间里只能有其中一个角色在场。"
+  },
+  {
+    "id": "123_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
+    "name": "戏子（改）&召唤师",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "互为克星的角色在同一时间里只能有其中一个角色在场。"
+  },
+  {
+    "id": "124_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
+    "name": "戏子（改）&暴乱",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "互为克星的角色在同一时间里只能有其中一个角色在场。"
+  },
+  {
+    "id": "125_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
+    "name": "戏子（改）&军团",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "在戏子（改）存在于剧本中时，军团可以在游戏中任意时候向说书人示意自己“想要死亡”。说书人会在夜晚一同唤醒所有军团，并询问他们是否要一同死亡。"
+  },
+  {
+    "id": "126_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
+    "name": "戏子（改）&利维坦",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "在戏子（改）存在于剧本中时，利维坦可以在游戏中任意时候向说书人示意自己“想要死亡”。说书人会在当晚杀死这名玩家。"
+  },
+  {
+    "id": "127_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
+    "name": "戏子（改）&小怪宝",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "在戏子（改）存在于剧本中时，照看小怪宝的玩家可以在游戏中任意时候向说书人示意自己“想要死亡”。说书人会在当晚将小怪宝从游戏中移除。"
+  },
+  {
+    "id": "128_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
+    "name": "戏子（改）&普卡",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "在戏子（改）存在于剧本中时，普卡可以在游戏中任意时候向说书人示意自己“想要死亡”。说书人会在当晚杀死这名玩家。"
+  },
+  {
+    "id": "129_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
+    "name": "戏子（改）&哥布林",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "戏子（改）无法反转由哥布林的能力产生的胜负结果。"
+  },
+  {
+    "id": "130_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
+    "name": "戏子（改）&恐惧之灵",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "戏子（改）无法反转由恐惧之灵的能力产生的胜负结果。"
+  },
+  {
+    "id": "131_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
+    "name": "戏子（改）&麻脸巫婆",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "麻脸巫婆无法创造戏子（改），麻脸巫婆创造的邪恶玩家无法获得戏子（改）的能力。"
+  },
+  {
+    "id": "132_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
+    "name": "戏子（改）&科学怪人",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "科学怪人无法使恶魔获得戏子（改）的能力。"
+  },
+  {
+    "id": "133_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
+    "name": "戏子（改）&无神论者",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "无神论者在剧本中时，处决说书人导致的胜负结果不会被反转，无神论者不会因为戏子（改）的能力醉酒。"
+  },
+  {
+    "id": "13333333333333333_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
+    "name": "戏子（改）&疯子",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "疯子不会因为戏子（改）能力参与互认，也不会因为戏子（改）的能力醉酒。"
+  },
+  {
+    "id": "13333338883333_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
+    "name": "戏子（改）&国王",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "国王不会因为戏子（改）的能力醉酒。"
+  },
+  {
+    "id": "133333377733333_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
+    "name": "戏子（改）&告密者",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "告密者不会因为戏子（改）的能力醉酒。"
+  },
+  {
+    "id": "1333333366633_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
+    "name": "戏子（改）&落难少女",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "落难少女不会因为戏子（改）的能力醉酒。"
+  },
+  {
+    "id": "13339999999933_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/1/13/Xizi.png/300px-Xizi.png",
+    "name": "戏子（改）&书生",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "书生不会因为戏子（改）的能力醉酒。"
+  },
+  {
+    "id": "134_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c1/Lycanthrope.png/300px-Lycanthrope.png",
+    "name": "半兽人&打更人",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "本相克暂时被移除。"
+  },
+  {
+    "id": "135_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c1/Lycanthrope.png/300px-Lycanthrope.png",
+    "name": "半兽人&锦衣卫",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "本相克暂时被移除。"
+  },
+  {
+    "id": "136_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/a/a7/Wudaozhe.png/300px-Wudaozhe.png",
+    "name": "悟道者&村夫",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果村夫在场数量不足3人，悟道者可以变成新的村夫。如果因此使得村夫的在场数量超过1人，会有一名村夫醉酒。"
+  },
+  {
+    "id": "137_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
+    "name": "瘟疫医生&赶尸人",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果瘟疫医生死亡且说书人会因此获得赶尸人的能力，改为一名存活的爪牙玩家获得此能力，且他会得知此事。"
+  },
+  {
+    "id": "138_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
+    "name": "瘟疫医生&养蛊人",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果瘟疫医生死亡且说书人会因此获得养蛊人的能力，改为一名存活的爪牙玩家获得此能力，且他会得知此事。"
+  },
+  {
+    "id": "139_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/2/2d/Plaguedoctor.png/300px-Plaguedoctor.png",
+    "name": "瘟疫医生&狐魅娘",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果瘟疫医生死亡且说书人会因此获得狐魅娘的能力，改为一名存活的爪牙玩家获得此能力，且他会得知此事。"
+  },
+  {
+    "id": "140_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/8/81/Heretic.png/300px-Heretic.png",
+    "name": "异端分子&狐魅娘",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "互为克星的角色在同一时间里只能有其中一个角色在场。"
+  },
+  {
+    "id": "141_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
+    "name": "暴乱&半仙",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "当且仅当暴乱提名了半仙时，半仙不会死亡，而是让另一名存活的邪恶玩家死亡。（随后那名死亡的邪恶玩家可以立即发起新的提名。如果场上已经没有其他存活的邪恶玩家，那么半仙在被唯一存活的暴乱提名时会正常死亡。）"
+  },
+  {
+    "id": "142_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
+    "name": "暴乱&打更人",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果在夜晚无人死亡，打更人的能力能保护下一个白天首次死亡的玩家（如果打更人的猜测正确）。然而集体免死的效果不会在白天触发，打更人也不会因此在白天死亡。"
+  },
+  {
+    "id": "143_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
+    "name": "暴乱&和尚",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果暴乱提名了与和尚邻近的存活玩家，那么那名玩家不会死亡，并且当晚和尚得知他的能力被触发。（如常在和尚旁放置“已生效”提示标记，因为黎明时才会移除此标记，因此当晚和尚无法再触发他的能力。）"
+  },
+  {
+    "id": "144_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
+    "name": "暴乱&逆臣",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "被提名且死亡的玩家算作被处决。"
+  },
+  {
+    "id": "145_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c0/Riot.png/300px-Riot.png",
+    "name": "暴乱&狐魅娘",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "被提名且死亡的玩家算作被处决。"
+  },
+  {
+    "id": "146_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/0/0a/Leviathan.png/300px-Leviathan.png",
+    "name": "利维坦&和尚",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果利维坦发起的提名中被处决的玩家是与和尚邻近的存活玩家，那么那名玩家不会死亡，并且当晚和尚得知他的能力被触发。（如常在和尚旁放置“已生效”提示标记，因为黎明时才会移除此标记，因此当晚和尚无法再触发他的能力。）"
+  },
+  {
+    "id": "147_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/52/Taowu.png/300px-Taowu.png",
+    "name": "梼杌&红唇女郎",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "红唇女郎在梼杌的能力判断中被当作“不具有能力”。"
+  },
+  {
+    "id": "148_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/52/Taowu.png/300px-Taowu.png",
+    "name": "梼杌&镜像双子",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "镜像双子在梼杌的能力判断中被当作“不具有能力”。"
+  },
+  {
+    "id": "149_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/52/Taowu.png/300px-Taowu.png",
+    "name": "梼杌&主谋",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "主谋在梼杌的能力判断中被当作“不具有能力”。"
+  },
+  {
+    "id": "150_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/52/Taowu.png/300px-Taowu.png",
+    "name": "梼杌&街头风琴手",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "当梼杌被处决时，如果街头风琴手具有能力，说书人会宣布“无人被处决”。"
+  },
+  {
+    "id": "151_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/52/Taowu.png/300px-Taowu.png",
+    "name": "梼杌&提线木偶",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "梼杌不会得知谁是提线木偶。在梼杌使得提线木偶失去能力后，梼杌会得知对应的那一名提线木偶是谁，但提线木偶会仍然以为自己是一个善良角色。"
+  },
+  {
+    "id": "152_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/52/Taowu.png/300px-Taowu.png",
+    "name": "梼杌&帽匠",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果梼杌变成了其他角色，因为梼杌而失去能力的爪牙会立即死亡。"
+  },
+  {
+    "id": "153_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/52/Taowu.png/300px-Taowu.png",
+    "name": "梼杌&麻脸巫婆",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果梼杌变成了其他角色，因为梼杌而失去能力的爪牙会立即死亡。"
+  },
+  {
+    "id": "154_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/52/Taowu.png/300px-Taowu.png",
+    "name": "梼杌&工程师",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果梼杌变成了其他角色，因为梼杌而失去能力的爪牙会立即死亡。"
+  },
+  {
+    "id": "155_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/52/Taowu.png/300px-Taowu.png",
+    "name": "梼杌&舞蛇人",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果梼杌变成了其他角色，因为梼杌而失去能力的爪牙会立即死亡。"
+  },
+  {
+    "id": "156_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/5/52/Taowu.png/300px-Taowu.png",
+    "name": "梼杌&理发师",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果梼杌变成了其他角色，因为梼杌而失去能力的爪牙会立即死亡。"
+  },
+  {
+    "id": "165_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c5/Ogre.png/300px-Ogre.png",
+    "name": "食人魔&陌客",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果陌客被食人魔当作邪恶阵营，食人魔会得知自己转变为邪恶。"
+  },
+  {
+    "id": "167_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c5/Ogre.png/300px-Ogre.png",
+    "name": "食人魔&熬药巫婆",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "被麻脸巫婆创造的邪恶食人魔无法因为自身能力转变为善良阵营。"
+  },
+  {
+    "id": "168_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/c/c5/Ogre.png/300px-Ogre.png",
+    "name": "食人魔&间谍",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "间谍必定被食人魔当作邪恶阵营。"
+  },
+  {
+    "id": "169_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/e/e0/Philosopher.png/300px-Philosopher.png",
+    "name": "哲学家&赏金猎人",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果哲学家获得了赏金猎人的能力，可能会有一名镇民玩家转变为邪恶。"
+  },
+  {
+    "id": "111111_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/d/d6/Alsaahir.png/300px-Alsaahir.png",
+    "name": "戏法师&维齐尔",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果维齐尔在场，戏法师在进行猜测时还需要猜测恶魔的具体角色。"
+  },
+  {
+    "id": "1111342352345_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/1/1a/Zealot.png",
+    "name": "狂热者&食人族",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果食人族获得了狂热者的能力，他会得知这一信息。"
+  },
+  {
+    "id": "111232323231_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/1/1a/Zealot.png",
+    "name": "狂热者&维齐尔",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "维齐尔的能力可能会将狂热者当作邪恶阵营。"
+  },
+  {
+    "id": "11122233333_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/1/1a/Zealot.png",
+    "name": "狂热者&军团",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "军团的能力可能会将狂热者当作邪恶阵营。"
+  },
+  {
+    "id": "1122333_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/1/1a/Zealot.png",
+    "name": "狂热者&暴乱",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "狂热者在被提名后必须立马发起提名，即使自己已死亡。"
+  },
+  {
+    "id": "112312312312312122333_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/1/18/Lordoftyphon.png",
+    "name": "堤丰之首&召唤师",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果召唤师创造了堤丰之首，则堤丰之首必须与一名爪牙相邻，且堤丰之首另一侧的玩家变成一个不在场的邪恶爪牙。"
+  },
+  {
+    "id": "112222222226662222222222222222222333_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/f/f1/Boffin.png",
+    "name": "科学怪人&村夫",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果村夫在场数量不足3人，科学怪人可以让恶魔拥有村夫的能力。"
+  },
+  {
+    "id": "11222222222222244422222222222333_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/f/f1/Boffin.png",
+    "name": "科学怪人&异教领袖",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果恶魔拥有异教领袖的能力，他无法因为该能力转变为善良阵营。"
+  },
+  {
+    "id": "112222222222222222222225552333_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/f/f1/Boffin.png",
+    "name": "科学怪人&莽夫",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果恶魔拥有莽夫的能力，他无法因为该能力转变为善良阵营。"
+  },
+  {
+    "id": "1122222222222343422222222222222222333_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/f/f1/Boffin.png",
+    "name": "科学怪人&异端分子",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "恶魔无法拥有异端分子的能力。"
+  },
+  {
+    "id": "1122222222222222222222222353578822222333_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/f/f1/Boffin.png",
+    "name": "科学怪人&食人魔",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "恶魔无法拥有食人魔的能力。"
+  },
+  {
+    "id": "112222222299999222222222222222333_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/f/f1/Boffin.png",
+    "name": "科学怪人&政客",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "恶魔无法拥有政客的能力。"
+  },
+  {
+    "id": "1122000000222222222222222333_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/f/f1/Boffin.png",
+    "name": "科学怪人&酒鬼",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果恶魔拥有酒鬼的能力，改为由科学怪人选择一名玩家：如果他是镇民，他醉酒。"
+  },
+  {
+    "id": "112222222222435325645742222222222222333_meta",
+    "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/alchemist.png",
+    "name": "炼金术士&科学怪人",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果炼金术士拥有科学怪人的能力，炼金术士不会得知恶魔因此获得了哪个角色的能力。"
+  },
+  {
+    "id": "137771_meta",
+    "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/kazali.png",
+    "name": "卡扎力&士兵",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "卡扎力可以把士兵转变成邪恶的爪牙。"
+  },
+  {
+    "id": "121321341245_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/4/46/Kazali.png/300px-Kazali.png",
+    "name": "卡扎力&半仙",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "卡扎力可以把半仙转变成邪恶的爪牙。"
+  },
+  {
+    "id": "167789696805_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/4/46/Kazali.png/300px-Kazali.png",
+    "name": "卡扎力&和尚",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "卡扎力可以把与和尚邻近的玩家转变成邪恶的爪牙。"
+  },
+  {
+    "id": "56786542_meta",
+    "image": "https://clocktower-wiki.gstonegames.com/images/thumb/e/ed/Cannibal.png/300px-Cannibal.png",
+    "name": "食人族&罂粟种植者",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果食人族获得了罂粟种植者的能力，当他获得下一个能力时，爪牙和恶魔也会互相认识。"
+  },
+  {
+    "id": "1233543467_meta",
+    "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/yinluren.png",
+    "name": "引路人&侍女",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "侍女会得知引路人是否醒来，即使她是在引路人之前醒来。"
+},
+  {
+    "id": "123222_meta",
+    "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/yinluren.png",
+    "name": "引路人&数学家",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "引路人会得知数学家是否被影响，即使他是在数学家之前醒来。"
+},
+  {
+    "id": "123888_meta",
+    "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/rulianshi.png",
+    "name": "入殓师&红唇女郎",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "入殓师提名并处决了恶魔并成功变成邪恶恶魔时，红唇女郎不会变成恶魔。"
+},
+  {
+    "id": "12322999_meta",
+    "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/rulianshi.png",
+    "name": "入殓师&哈迪寂亚",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果出现两名存活的哈迪寂亚，则入殓师变成的哈迪寂亚会变回入殓师，但阵营保持邪恶。"
+},
+  {
+    "id": "1237772_meta",
+    "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/rulianshi.png",
+    "name": "入殓师&小怪宝",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果在五名及以上的玩家存活时，入殓师提名并处决了照看小怪宝的玩家，入殓师会变为邪恶的该角色，当晚原入殓师玩家必须要照看小怪宝。"
+},
+  {
+    "id": "126662_meta",
+    "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/rulianshi.png",
+    "name": "入殓师&痢蛭",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果在大于等于五名玩家存活时，入殓师提名并处决了宿主且他死于这次处决，原本的痢蛭会在当晚死亡，入殓师变为邪恶的痢蛭且当晚无法攻击。"
+},
+  {
+    "id": "18_meta",
+    "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/alchemist.png",
+    "name": "炼金术士&间谍",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果炼金术士获得了间谍的能力，他无法查看魔典，并且间谍不能被当作善良阵营、镇民角色或外来者角色。"
+  },
+  {
+    "id": "25_meta",
+    "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/alchemist.png",
+    "name": "炼金术士&寡妇",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果炼金术士获得了寡妇的能力，他无法查看魔典。"
+  },
+  {
+    "id": "2511_meta",
+    "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/limao.png",
+    "name": "狸猫&教授",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果狸猫与使用过能力的教授交换角色，新教授仍然失去能力。"
+  },
+  {
+    "id": "25112_meta",
+    "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/limao.png",
+    "name": "狸猫&报丧女妖",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "如果狸猫与报丧女妖交换角色，不会触发报丧女妖的能力。"
+  },
+  {
+    "id": "25131_meta",
+    "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/limao.png",
+    "name": "狸猫&利维坦",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "每个夜晚*，利维坦要选择一名存活的善良玩家（与之前的每个夜晚不同）：如果“太子”被选择，他会与狸猫交换角色但不会死亡。"
+  },
+  {
+    "id": "25451_meta",
+    "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/limao.png",
+    "name": "狸猫&暴乱",
+    "team": "a jinxed",
+    "setup": 0,
+    "ability": "每个夜晚*，暴乱要选择一名存活的善良玩家（与之前的每个夜晚不同）：如果“太子”被选择，他会与狸猫交换角色但不会死亡。"
+  },
     {
         "id": "quantamashabi12345",
         "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/buddhist.png",
@@ -5268,354 +5123,13 @@
         "otherNight": 0
     },
     {
-        "id": "shibaideshangdi1111",
-        "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/deusexfiasco.png",
-        "edition": "custom",
-        "name": "失败的上帝",
-        "ability": "每局游戏限一次，说书人可能会犯一个“错误”，但会将其纠正，并公开承认自己曾处理有误。",
-        "team": "fabled",
-        "firstNight": 0,
-        "otherNight": 0
-    }
-];
-
-        // 存储勾选状态
-        let selectedCharacterIds = new Set();
-        const teams = [
-            { name: "镇民", type: "townsfolk" },
-            { name: "外来者", type: "outsider" },
-            { name: "爪牙", type: "minion" },
-            { name: "恶魔", type: "demon" },
-            { name: "传奇角色", type: "fabled" },
-            { name: "相克规则", type: "a jinxed" }
-        ];
-
-        // 初始渲染所有卡片
-        function renderAllCharacters() {
-            const grid = document.getElementById("characterGrid");
-            grid.innerHTML = "";
-            grid.style.display = "block";
-
-            teams.forEach(team => {
-                const teamSection = document.createElement("div");
-                teamSection.className = "team-section";
-                teamSection.style.marginBottom = "30px";
-                teamSection.style.width = "100%";
-
-                const teamHeader = document.createElement("h2");
-                teamHeader.textContent = team.name;
-                teamHeader.style.cursor = "pointer";
-                teamHeader.style.background = "linear-gradient(90deg, #e0e0e0, #f0f0f0)";
-                teamHeader.style.padding = "12px";
-                teamHeader.style.borderRadius = "4px";
-                teamHeader.style.transition = "background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease";
-                teamHeader.onmouseover = () => {
-                    teamHeader.style.background = "linear-gradient(90deg, #d0d0d0, #e0e0e0)";
-                    teamHeader.style.transform = "translateY(-3px)";
-                    teamHeader.style.boxShadow = "0 4px 8px rgba(0,0,0,0.1)";
-                };
-                teamHeader.onmouseout = () => {
-                    teamHeader.style.background = "linear-gradient(90deg, #e0e0e0, #f0f0f0)";
-                    teamHeader.style.transform = "translateY(0)";
-                    teamHeader.style.boxShadow = "none";
-                };
-                teamHeader.onclick = () => {
-                    teamGrid.style.display = teamGrid.style.display === "none" ? "grid" : "none";
-                };
-
-                const teamGrid = document.createElement("div");
-                teamGrid.className = "character-grid";
-                teamGrid.dataset.teamType = team.type; // 标记团队类型
-                teamGrid.style.display = "grid";
-                teamGrid.style.gridTemplateColumns = "repeat(auto-fit, minmax(250px, 1fr))";
-                teamGrid.style.gap = "15px";
-                teamGrid.style.padding = "10px 0";
-                teamGrid.style.width = "100%";
-
-                const teamCharacters = characters.filter(char => char.team === team.type);
-                teamCharacters.forEach(char => {
-                    const card = document.createElement("div");
-                    card.className = "character-card";
-                    card.dataset.characterId = char.id; // 存储角色 ID
-                    card.style.background = "#fff";
-                    card.style.borderRadius = "8px";
-                    card.style.overflow = "hidden";
-                    card.style.display = "flex";
-                    card.style.alignItems = "center";
-                    card.style.padding = "10px";
-                    card.style.boxShadow = "0 2px 4px rgba(0,0,0,0.1)";
-                    card.style.transition = "transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease";
-                    const checkbox = document.createElement("input");
-                    checkbox.type = "checkbox";
-                    checkbox.dataset.characterId = char.id;
-                    checkbox.style.width = "20px";
-                    checkbox.style.height = "20px";
-                    checkbox.style.cursor = "pointer";
-                    if (selectedCharacterIds.has(char.id)) checkbox.checked = true;
-                    const checkboxDiv = document.createElement("div");
-                    checkboxDiv.className = "character-checkbox";
-                    checkboxDiv.style.position = "absolute";
-                    checkboxDiv.style.top = "10px";
-                    checkboxDiv.style.right = "10px";
-                    checkboxDiv.appendChild(checkbox);
-                    card.appendChild(checkboxDiv);
-                    card.innerHTML += `
-                        <img src="${char.image}" alt="${char.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; margin-right: 10px;">
-                        <div class="character-info" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                            <div class="character-name" style="font-size: 16px; font-weight: bold; color: #333; text-align: left;">${char.name}</div>
-                        </div>
-                    `;
-                    teamGrid.appendChild(card);
-                });
-
-                teamSection.appendChild(teamHeader);
-                teamSection.appendChild(teamGrid);
-                grid.appendChild(teamSection);
-            });
-        }
-
-        // 更新相克规则卡片
-        function updateJinxedCharacters() {
-  // 1. 先算出被选中的“基础”角色的名字（镇民/外来者/爪牙/恶魔）
-  const selectedBaseNames = Array.from(selectedCharacterIds)
-    .map(id => characters.find(c => c.id === id))
-    .filter(c => c && ["townsfolk","outsider","minion","demon"].includes(c.team))
-    .map(c => c.name);
-
-  // 2. 计算本次应当显示的“相克”角色列表
-  const jinxedCharacters = characters
-    .filter(c => c.team === "a jinxed")
-    .filter(jc => {
-      const [a, b] = jc.name.split("&").map(s => s.trim());
-      return selectedBaseNames.includes(a) && selectedBaseNames.includes(b);
-    });
-
-  // 3. 找到相克规则区域，先把“上一次”存在但这次不该出现的 jinxed id 从 Set 里删掉
-  const jinxedGrid = document.querySelector('.character-grid[data-team-type="a jinxed"]');
-  if (!jinxedGrid) return;
-  // 上次渲染过的 id 列表
-  const prevIds = Array.from(jinxedGrid.children)
-    .map(card => card.dataset.characterId);
-  prevIds.forEach(id => {
-    if (selectedCharacterIds.has(id) &&
-        !jinxedCharacters.some(jc => jc.id === id)) {
-      selectedCharacterIds.delete(id);
-      console.log(`Removed stale jinxed id: ${id}`);
-    }
-  });
-
-  // 4. 真正清空旧的卡片
-  jinxedGrid.innerHTML = "";
-
-  // 5. 逐个用纯 DOM API 造出新的 jinxed 卡片
-  jinxedCharacters.forEach(char => {
-    // 外层 card
-    const card = document.createElement("div");
-    card.className = "character-card";
-    card.dataset.characterId = char.id;
-    card.addEventListener("click", e => {
-        e.stopPropagation();    // ❶ 阻止冒泡，不让外层的委托再来一次
-        });
-
-    Object.assign(card.style, {
-      position: "relative",
-      background: "#fff",
-      borderRadius: "8px",
-      overflow: "hidden",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
-      boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-      transition: "transform 0.3s ease, boxShadow 0.3s ease, background 0.3s ease",
-      cursor: "pointer"
-    });
-    // hover 效果
-    card.onmouseover = () => {
-      card.style.transform = "scale(1.05) rotate(0.5deg)";
-      card.style.boxShadow = "0 10px 20px rgba(0,0,0,0.15)";
-      card.style.background = "#f9f9f9";
-    };
-    card.onmouseout = () => {
-      card.style.transform = "";
-      card.style.boxShadow = "0 2px 4px rgba(0,0,0,0.1)";
-      card.style.background = "#fff";
-    };
-
-    // 复选框容器
-    const checkboxDiv = document.createElement("div");
-    checkboxDiv.className = "character-checkbox";
-    Object.assign(checkboxDiv.style, {
-      position: "absolute",
-      top: "10px",
-      right: "10px"
-    });
-    // 复选框本体
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.dataset.characterId = char.id;
-    checkbox.checked = selectedCharacterIds.has(char.id);
-    Object.assign(checkbox.style, {
-      width: "20px",
-      height: "20px",
-      cursor: "pointer"
-    });
-    checkboxDiv.appendChild(checkbox);
-    card.appendChild(checkboxDiv);
-
-    // 图像
-    const img = document.createElement("img");
-    img.src = char.image;
-    img.alt = char.name;
-    Object.assign(img.style, {
-      width: "80px",
-      height: "80px",
-      objectFit: "cover",
-      borderRadius: "4px",
-      marginRight: "10px"
-    });
-    card.appendChild(img);
-
-    // 名称容器
-    const info = document.createElement("div");
-    info.className = "character-info";
-    Object.assign(info.style, {
-      flex: "1",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-between"
-    });
-    const nameDiv = document.createElement("div");
-    nameDiv.className = "character-name";
-    nameDiv.textContent = char.name;
-    Object.assign(nameDiv.style, {
-      fontSize: "16px",
-      fontWeight: "bold",
-      color: "#333",
-      textAlign: "left"
-    });
-    info.appendChild(nameDiv);
-    card.appendChild(info);
-
-    // 整个卡片点击也能切换 checkbox
-    card.addEventListener("click", e => {
-      if (e.target !== checkbox) {
-        checkbox.checked = !checkbox.checked;
-      }
-      const id = checkbox.dataset.characterId;
-      if (checkbox.checked) selectedCharacterIds.add(id);
-      else selectedCharacterIds.delete(id);
-      console.log("Updated Selected Character IDs (Card Click):", Array.from(selectedCharacterIds));
-      updateJinxedCharacters();
-    });
-
-    jinxedGrid.appendChild(card);
-  });
-}
-
-
-
-        // 事件委托：监听整个 characterGrid 的点击事件
-        document.getElementById("characterGrid").addEventListener("click", (event) => {
-            const card = event.target.closest(".character-card");
-            if (!card) return;
-
-            const checkbox = card.querySelector("input");
-            if (!checkbox) return;
-
-            const characterId = checkbox.dataset.characterId;
-            const isCheckboxClick = event.target.tagName === "INPUT";
-
-            // 只有在非复选框区域点击时切换状态
-            if (!isCheckboxClick) {
-                checkbox.checked = !checkbox.checked;
-            }
-
-            const newCheckedState = checkbox.checked;
-            if (newCheckedState) {
-                selectedCharacterIds.add(characterId);
-            } else {
-                selectedCharacterIds.delete(characterId);
-            }
-
-            console.log(`Updated Selected Character IDs (${isCheckboxClick ? "Checkbox Click" : "Card Click"}):`, Array.from(selectedCharacterIds));
-            updateJinxedCharacters();
-        });
-
-        // 初始渲染
-        renderAllCharacters();
-
-        function generateScript() {
-            const title = document.getElementById("scriptTitle").value;
-            const author = document.getElementById("author").value;
-            const selectedCharacters = Array.from(selectedCharacterIds)
-                .map(characterId => characters.find(char => char.id === characterId))
-                .filter(char => char);
-
-            if (!title || !author || selectedCharacters.length === 0) {
-                alert("请填写剧本标题、作者并选择至少一个角色！");
-                return;
-            }
-
-            const script = [
-                {
-                    "id": "_meta",
-                    "name": title,
-                    "author": author,
-                    "logo": "https://www.helloimg.com/i/2024/07/18/669889e8484e6.png",
-                    "description": "全员追忆山雨版",
-                    "townsfolkName": "镇民",
-                    "outsidersName": "外来者",
-                    "minionsName": "爪牙",
-                    "demonsName": "恶魔",
-                    "townsfolk": "镇民",
-                    "outsider": "外来者",
-                    "minion": "爪牙",
-                    "demon": "恶魔",
-                    "a jinxedName": "相克",
-                    "a jinxed": "相克",
-                    "state": [
-                        {
-                            "stateName": "华白推荐角色能力修改-全追山雨版",
-                            "stateDescription": "①涡流的邪恶方获胜能力首日失效。②哲学家/工程师/帽匠/麻脸巫婆/召唤师/卡扎力可能被说书人要求在一个特定的范围中选择角色。③杂耍艺人/魔术师/畸形秀演员/真失忆者 会得知自己的身份。④无神论者、戏子（改）、异端分子、军团、暴乱一般来说不会出现在配板中。"
-                        },
-                        {
-                            "stateName": "华白推荐全追运行规则",
-                            "stateDescription": "①每个白天，所有玩家都能向说书人询问关于自己能力的问题和角色的问题各一次，你会得知完美/接近/有关/无关。②每个夜晚，说书人会播报当前共计有多少个完美的玩家。③在游戏的第四个白天时，所有玩家得知自己的角色（保底）。"
-                        },
-                        {
-                            "stateName": "星火乐推荐角色能力修改-全追山雨版",
-                            "stateDescription": "①涡流的邪恶方获胜能力首日失效。②哲学家/工程师/帽匠/麻脸巫婆/召唤师/卡扎力可能被说书人要求在一个特定的范围中选择角色。"
-                        },
-                        {
-                            "stateName": "星火乐推荐全追运行规则",
-                            "stateDescription": "①每个白天，所有玩家都能向说书人询问关于自己能力的问题或角色的问题共两次，你会得知完美/接近/有关/无关。②每个夜晚，说书人可能会播报当前共计有多少个完美的玩家。"
-                        },
-                        {
-                            "stateName": "华白叠甲",
-                            "stateDescription": "本json里的夜晚行动顺序可能有问题，一切结算以钟楼百科-夜晚行动顺序一览为准。相克规则也懒得改了，未来的某一天会修吧。"
-                        },
-                        {
-                            "stateName": "山雨强权上帝",
-                            "stateDescription": "山雨欲来相关判定由当局说书人拥有最终解释权，如果说书人的意见和大多数玩家不一致，别问，问就是说书人最大！"
-                        }
-                    ]
-                },
-                ...selectedCharacters
-            ];
-
-            const jsonString = JSON.stringify(script, null, 2);
-            const blob = new Blob([jsonString], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = `${title || "script"}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-
-            alert(`剧本已下载！\n标题: ${title}\n作者: ${author}\n角色数: ${selectedCharacters.length}`);
-        }
-    </script>
-</body>
-</html>
+    "id": "shibaideshangdi1111",
+    "image": "https://oss.gstonegames.com/data_file/clocktower/web/icons/deusexfiasco.png",
+    "edition": "custom",
+    "name": "失败的上帝",
+    "ability": "每局游戏限一次，说书人可能会犯一个“错误”，但会将其纠正，并公开承认自己曾处理有误。",
+    "team": "fabled",
+    "firstNight": 0,
+    "otherNight": 0
+  }
+]
